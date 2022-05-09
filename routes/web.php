@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
+Route::get('/authorizeToken', function(){
+    \App\Models\SpotifyUser::requestAuthorization();
+});
