@@ -17,7 +17,7 @@ class SpotifyUser extends Model
         $this->client_secret=$client_secret;
     }
     public function getUserToken(string $code, string $devAppID, string $devAppSecret){
-<<<<<<< Updated upstream
+
         $userToken = new CurlObject(
             'https://accounts.spotify.com/api/token',
             'POST',
@@ -28,15 +28,7 @@ class SpotifyUser extends Model
                 'code' => $code,
                 'redirect_uri'=> 'http://127.0.0.1:8000/',
                 'grant_type' => 'authorization_code'
-            ]
-=======
-        $request = new CurlObject();
-        $params=array(
-            'code' => $code,
-            'redirect_uri'=> 'http://127.0.0.1:8000/',
-            'grant_type' => 'authorization_code'
->>>>>>> Stashed changes
-        );
+            ]);
         $response = $userToken->request();
         if(isset($response->access_token)) {
             $this->accessToken = $response->access_token;
