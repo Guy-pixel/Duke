@@ -8,7 +8,6 @@ session_start();
 <x-layout>
 
 <?php
-    session_start();
 
     $devApp = new SpotifyDev('3dbd8531a08c4b26920d00ac58ec5adb', '292ad2b5bcb2443d970fa3cf945e0c1e');
     $devApp->getToken();
@@ -18,23 +17,18 @@ session_start();
         dump($_SESSION['userToken']);
     } elseif(isset($_GET['code'])){
         $currentUser = new SpotifyUser();
-        dump($currentUser->getUserToken($_GET['code'], $devApp->client_id, $devApp->client_secret));
-
+        $_SESSION['userToken']=$currentUser->getUserToken($_GET['code'], $devApp->client_id, $devApp->client_secret);
         echo '<strong>User Code: </strong>' . $_GET['code'] . '<br/>';
-        $_SESSION['userToken']=$currentUser->accessToken;
-
+        redirect('/');
+    } else{
+        echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
     }
 
 
 
     ?>
-    <br/>
-    <br/>
 
     <div>
-        <a href='https://accounts.spotify.com/authorize?<?= $devApp->createAuthorizationLink() ?>'>
-            Log Into Spotify
-        </a>
 
     </div>
     <?php

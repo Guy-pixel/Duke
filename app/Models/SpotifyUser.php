@@ -12,9 +12,10 @@ class SpotifyUser extends Model
     public string $client_id;
     public string $client_secret;
     public string $accessToken;
-    public function __construct($client_id = '', $client_secret = ''){
+    public function __construct($client_id = '', $client_secret = '', $accessToken=''){
         $this->client_id=$client_id;
         $this->client_secret=$client_secret;
+        $this->accessToken=$accessToken;
     }
     public function getUserToken(string $code, string $devAppID, string $devAppSecret){
 

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CurlObject extends Model
 {
     use HasFactory;
-    public string $url;
-    public string $requestType;
-    public array $postFields;
+    private string $url;
+    private string $requestType;
+    private array $postFields;
     private array $headers;
     public function __construct($url = '', string $requestType, $headers = [], $postFields =[])
     {

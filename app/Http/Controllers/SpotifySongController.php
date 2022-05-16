@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CurlObject;
+use App\Models\SpotifyUser;
 use Illuminate\Http\Request;
 
 class SpotifySongController extends Controller
@@ -13,7 +15,9 @@ class SpotifySongController extends Controller
             'lastname'=> 'gasson'
         );
     }
-    public function skipSong(object $currentUser){
+    public function skipSong(){
+        session_start();
+        $currentUser = new SpotifyUser('','',$_SESSION['userToken']->access_token);
         $currentUser->skipToNext();
     }
 }
