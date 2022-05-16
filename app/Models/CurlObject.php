@@ -34,7 +34,7 @@ class CurlObject extends Model
     }
     public function request()
     {
-        $stringifiedPostFields=$this::buildPostFields($this->postFields);
+        $stringifyPostFields=$this::buildPostFields($this->postFields);
         $request=curl_init();
         curl_setopt_array($request, array(
                 CURLOPT_URL => $this->url,
@@ -45,7 +45,7 @@ class CurlObject extends Model
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => $this->requestType,
-                CURLOPT_POSTFIELDS => $stringifiedPostFields,
+                CURLOPT_POSTFIELDS => $stringifyPostFields,
                 CURLOPT_HTTPHEADER => $this->headers
             )
         );
