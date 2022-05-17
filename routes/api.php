@@ -19,7 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('test', [SpotifySongController::class, 'testResponse']);
-Route::get('skip', [SpotifySongController::class, 'skipSong']);
-
+Route::get('next', [SpotifySongController::class, 'nextSong']);
+Route::get('previous', [SpotifySongController::class, 'previousSong']);
+Route::get('resume', [SpotifySongController::class, 'resumeSong']);
+Route::get('pause', [SpotifySongController::class, 'pauseSong']);
 
 

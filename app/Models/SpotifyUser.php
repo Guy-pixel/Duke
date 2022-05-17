@@ -9,15 +9,20 @@ use JetBrains\PhpStorm\NoReturn;
 class SpotifyUser extends Model
 {
     use HasFactory;
+
     public string $client_id;
     public string $client_secret;
     public string $accessToken;
-    public function __construct($client_id = '', $client_secret = '', $accessToken=''){
-        $this->client_id=$client_id;
-        $this->client_secret=$client_secret;
-        $this->accessToken=$accessToken;
+
+    public function __construct($client_id = '', $client_secret = '', $accessToken = '')
+    {
+        $this->client_id = $client_id;
+        $this->client_secret = $client_secret;
+        $this->accessToken = $accessToken;
     }
-    public function getUserToken(string $code, string $devAppID, string $devAppSecret){
+
+    public function getUserToken(string $code, string $devAppID, string $devAppSecret)
+    {
 
         $userToken = new CurlObject(
             'https://accounts.spotify.com/api/token',
@@ -27,17 +32,26 @@ class SpotifyUser extends Model
                 'Content-Type: application/x-www-form-urlencoded'],
             [
                 'code' => $code,
-                'redirect_uri'=> 'http://127.0.0.1:8000/',
+                'redirect_uri' => 'http://127.0.0.1:8000/',
                 'grant_type' => 'authorization_code'
             ]);
         $response = $userToken->request();
-        if(isset($response->access_token)) {
+
+        /*
+         *
+         *
+         * */
+
+
+        if (isset($response->access_token)) {
             $this->accessToken = $response->access_token;
         }
         return $response;
 
     }
-    public function getDevices(){
+
+    public function getDevices()
+    {
         $getDevices = new CurlObject(
             'https://api.spotify.com/v1/me/player/devices',
             'GET',
@@ -49,10 +63,54 @@ class SpotifyUser extends Model
 
         return $getDevices->request();
     }
-    public function skipToNext(){
-        $skipRequest= new CurlObject(
+
+    public function skipToNext()
+    {
+        $skipRequest = new CurlObject(
             'https://api.spotify.com/v1/me/player/next',
             'POST',
+            [
+                'Authorization: Bearer ' . $this->accessToken,
+                'Content-Type: application/json',
+                'Content-Length: 0'
+            ]
+        );
+        $skipRequest->Request();
+    }
+
+    public function skipToPrevious()
+    {
+        $skipRequest = new CurlObject(
+            'https://api.spotify.com/v1/me/player/previous',
+            'POST',
+            [
+                'Authorization: Bearer ' . $this->accessToken,
+                'Content-Type: application/json',
+                'Content-Length: 0'
+            ]
+        );
+        $skipRequest->Request();
+    }
+
+    public function resume()
+    {
+        $skipRequest = new CurlObject(
+            'https://api.spotify.com/v1/me/player/play',
+            'PUT',
+            [
+                'Authorization: Bearer ' . $this->accessToken,
+                'Content-Type: application/json',
+                'Content-Length: 0'
+            ]
+        );
+        $skipRequest->Request();
+    }
+
+    public function pause()
+    {
+        $skipRequest = new CurlObject(
+            'https://api.spotify.com/v1/me/player/pause',
+            'PUT',
             [
                 'Authorization: Bearer ' . $this->accessToken,
                 'Content-Type: application/json',

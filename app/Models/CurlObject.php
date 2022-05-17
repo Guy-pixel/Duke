@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Curl Object which has URL, Request Type, Headers and Post Fields as parameters
+ * @param {string} URL to send it to.
+ * @param {requestType}
+ *
+ */
 class CurlObject extends Model
 {
     use HasFactory;

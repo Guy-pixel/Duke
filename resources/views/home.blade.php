@@ -27,9 +27,11 @@ session_start();
 
 
     ?>
-
+<script>function playerPause() {
+        fetch('http://127.0.0.1:8000/api/pause');
+    }</script>
     <div>
-
+        <button onclick="playerPause()">Pause</button>
     </div>
     <?php
     if(isset($currentUser->accessToken)){
