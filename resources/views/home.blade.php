@@ -13,16 +13,9 @@ session_start();
     $devApp->getToken();
 
 
-    if (isset($_SESSION['userToken'])) {
-        dump($_SESSION['userToken']);
-    } elseif (isset($_GET['code'])) {
-        $currentUser = new SpotifyUser();
-        $_SESSION['userToken'] = $currentUser->getUserToken($_GET['code'], $devApp->client_id, $devApp->client_secret);
-        echo '<strong>User Code: </strong>' . $_GET['code'] . '<br/>';
-        redirect('/');
-    } else {
-        echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
-    }
+
+    echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
+
 
 
 
@@ -47,20 +40,4 @@ session_start();
         <button onclick="playerPrevious()">Previous</button>
         <button onclick="playerSkip()">Skip</button>
     </div>
-    <?php
-    if (isset($currentUser->accessToken) && $currentUser != "") {
-        $deviceList = $currentUser->getDevices()->devices;
-        dump($deviceList);
-        echo '<br/>';
-        foreach ($deviceList as $key => $device) {
-            if ($device->is_active) {
-                $activeDevice = [
-                    'id' => $device->id,
-                    'name' => $device->name,
-                ];
-            }
-        }
-
-    }
-    ?>
 </x-layout>
