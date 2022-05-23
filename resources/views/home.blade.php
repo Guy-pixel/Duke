@@ -11,10 +11,14 @@ session_start();
 
     $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
     $devApp->getToken();
+    $currentUser= new SpotifyUser()
+    if (!isset($_GET['code'])) {
+        echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
+    }elseif (!isset($_SESSION['access_token'])) {
 
+    } else {
 
-
-    echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
+    }
 
 
 
@@ -24,12 +28,15 @@ session_start();
         function playerPause() {
             fetch('http://127.0.0.1:8000/api/pause');
         }
+
         function playerResume() {
             fetch('http://127.0.0.1:8000/api/resume')
         }
+
         function playerSkip() {
             fetch('http://127.0.0.1:8000/api/skip')
         }
+
         function playerPrevious() {
             fetch('http://127.0.0.1:8000/api/previous')
         }
