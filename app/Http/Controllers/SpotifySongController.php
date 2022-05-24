@@ -22,6 +22,7 @@ class SpotifySongController extends Controller
         session_start();
         $currentUser = new SpotifyUser('', '', $_SESSION['userToken']->access_token);
         $currentUser->skipToNext();
+        session_abort();
     }
 
     public function previousSong()
@@ -29,6 +30,7 @@ class SpotifySongController extends Controller
         session_start();
         $currentUser = new SpotifyUser('', '', $_SESSION['userToken']->access_token);
         $currentUser->skipToPrevious();
+        session_abort();
     }
 
     public function resumeSong()
@@ -36,6 +38,7 @@ class SpotifySongController extends Controller
         session_start();
         $currentUser = new SpotifyUser('', '', $_SESSION['userToken']->access_token);
         $currentUser->resume();
+        session_abort();
     }
 
     public function pauseSong()
@@ -43,6 +46,7 @@ class SpotifySongController extends Controller
         session_start();
         $currentUser = new SpotifyUser('', '', $_SESSION['userToken']->access_token);
         $currentUser->pause();
+        session_abort();
     }
 
 

@@ -11,13 +11,22 @@ session_start();
 
     $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
     $devApp->getToken();
-    $currentUser= new SpotifyUser()
+
     if (!isset($_GET['code'])) {
         echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
-    }elseif (!isset($_SESSION['access_token'])) {
-
-    } else {
-
+    } elseif (!isset($_SESSION['access_token'])) {
+        $currentUser = new SpotifyUser();
+        $currentUser->requestAccessToken($devApp->client_id, $devApp->client_secret, $_GET['code']);
+        $_SESSION['access_token']= $currentUser->getAccessToken();
+        $_SESSION['refresh_token']=$currentUser->getRefreshToken();
+        $_SESSION['expiry_time']=$currentUser->getExpiresIn();
+    } else{
+        $currentUser = new SpotifyUser($_SESSION['access_token'],
+        $_SESSION['refresh_token'],
+        $_SESSION['expiry_time']);
+        echo('validated<br/>');
+        echo('expires in: ' . $currentUser->getExpiresIn() . '<br/>');
+        echo('current time: ' .time());
     }
 
 
