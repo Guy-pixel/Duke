@@ -43,7 +43,7 @@ session_start();
         }
 
         function playerSkip() {
-            fetch('http://127.0.0.1:8000/api/skip')
+            fetch('http://127.0.0.1:8000/api/next')
         }
 
         function playerPrevious() {
