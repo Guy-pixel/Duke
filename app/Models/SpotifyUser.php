@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -11,140 +12,115 @@ class SpotifyUser extends Model
 {
     use HasFactory;
 
-    private string $username;
-    private string $client_id;
-    private string $client_secret;
     private string $access_token;
     private string $refresh_token;
     private int $expiry_time;
 
-    public function __construct($client_id = '', $client_secret = '')
+    public function __construct($access_token = '', $refresh_token = '', $expiry_time = 0)
     {
-        $this->client_id = $client_id;
-        $this->client_secret = $client_secret;
-    }
-    public static function returnAll(){
-        DB::select('select * from spotifyusers');
-    }
-    public function checkToken()
-    {
-        if (!isset($this->access_token)) {
-            return "404: No Access Token Found";
-        } elseif (!isset($this->refresh_token)) {
-            return "404: Access Token Found, No Refresh Token Found";
-        } elseif ($this->expiry_time < 3500) {
-            $this->refreshToken();
-
-        } else {
-
-        }
+        $this->access_token = $access_token;
+        $this->refresh_token = $refresh_token;
+        $this->expiry_time = $expiry_time;
     }
 
-    public function getUserToken(string $code, string $devAppID, string $devAppSecret)
+    public function getAccessToken()
     {
+        return $this->access_token;
+    }
 
-        $userToken = new CurlObject(
+    public function getRefreshToken()
+    {
+        return $this->refresh_token;
+    }
+
+    public function getExpiresIn()
+    {
+        return $this->expiry_time;
+    }
+
+    public function requestAccessToken(string $devApp_id, string $devApp_secret, string $code)
+    {
+        $requestAccess = new CurlObject(
             'https://accounts.spotify.com/api/token',
             'POST',
             [
-                'Authorization: Basic ' . base64_encode($devAppID . ':' . $devAppSecret),
-                'Content-Type: application/x-www-form-urlencoded'],
+                'Authorization: Basic ' . base64_encode($devApp_id . ':' . $devApp_secret),
+                'Content-Type:application/x-www-form-urlencoded'
+            ],
             [
-                'code' => $code,
-                'redirect_uri' => 'http://127.0.0.1:8000/',
                 'grant_type' => 'authorization_code',
-            ]);
-        $response = $userToken->request();
+                'code' => $code,
+                'redirect_uri' => 'http://127.0.0.1:8000/'
+            ]
+        );
+        $response = $requestAccess->request();
 
-        /* Create a request which will automatically refresh using a refresh token
-         *  This may require full redesign so that we can ensure that we're using efficient code.
-         *
-         * */
-
-
-        if (isset($response->access_token)) {
+        if (!isset($response->access_token)) {
+            dd($response);
+        } else {
             $this->access_token = $response->access_token;
-        }
-        if (isset($response->refresh_token)) {
             $this->refresh_token = $response->refresh_token;
             $this->expiry_time = time() + $response->expires_in;
         }
-        return $response;
-
     }
 
-    public function getDevices()
+    public function refreshAccessToken()
     {
-        $getDevices = new CurlObject(
-            'https://api.spotify.com/v1/me/player/devices',
-            'GET',
+        $refreshAccessToken = new CurlObject(
+            'https://accounts.spotify.com/api/token',
+            'POST',
             [
-                'Authorization: Bearer ' . $this->access_token,
-                'Content-Type: application/json'
+                'Authorization: Basic ' . base64_encode(env('SPOTIFY_CLIENT_ID') . ':' . env('SPOTIFY_CLIENT_SECRET')),
+                'Content-Type:application/x-www-form-urlencoded'
+            ],
+            [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $this->refresh_token
             ]
         );
 
-        return $getDevices->request();
+
+        try {
+            $response = $refreshAccessToken->request();
+            $this->access_token = $response->access_token;
+            $this->expiry_time = time() + $response->expires_in;
+        } catch (Exception $e) {
+            return 'Refresh Token Error ' . $e->getCode() . ':' . $e->getMessage();
+        }
     }
 
-    public function skipToNext()
+    public function checkAccessToken()
     {
-        $skipRequest = new CurlObject(
-            'https://api.spotify.com/v1/me/player/next',
+        if ($this->expiry_time < time()) {
+            $this->refreshAccessToken();
+        }
+    }
+
+    public function requestNavigation(String $navigationType)
+    {
+        $this->checkAccessToken();
+        $request = new CurlObject(
+            'https://api.spotify.com/v1/me/player/' . $navigationType,
             'POST',
             [
                 'Authorization: Bearer ' . $this->access_token,
-                'Content-Type: application/json',
+                'Content-Type: application.json',
                 'Content-Length: 0'
             ]
         );
-        $skipRequest->Request();
+        dd($request->request());
+    }
+    public function next(){
+        $this->requestNavigation('next');
+    }
+    public function previous(){
+        $this->requestNavigation('previous');
+    }
+    public function resume(){
+        $this->requestNavigation('play');
+    }
+    public function pause(){
+        $this->requestNavigation('pause');
     }
 
-    public function skipToPrevious()
-    {
-        $skipRequest = new CurlObject(
-            'https://api.spotify.com/v1/me/player/previous',
-            'POST',
-            [
-                'Authorization: Bearer ' . $this->access_token,
-                'Content-Type: application/json',
-                'Content-Length: 0'
-            ]
-        );
-        $skipRequest->Request();
-    }
-
-    public function resume()
-    {
-        $skipRequest = new CurlObject(
-            'https://api.spotify.com/v1/me/player/play',
-            'PUT',
-            [
-                'Authorization: Bearer ' . $this->access_token,
-                'Content-Type: application/json',
-                'Content-Length: 0'
-            ]
-        );
-        $skipRequest->Request();
-    }
-
-    public function pause()
-    {
-        $skipRequest = new CurlObject(
-            'https://api.spotify.com/v1/me/player/pause',
-            'PUT',
-            [
-                'Authorization: Bearer ' . $this->access_token,
-                'Content-Type: application/json',
-                'Content-Length: 0'
-            ]
-        );
-        $skipRequest->Request();
-    }
-
-    public function saveToDB()
-    {
-        DB::insert('insert into spotifyusers ()');
-    }
 }

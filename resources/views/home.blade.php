@@ -12,17 +12,23 @@ session_start();
     $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
     $devApp->getToken();
 
-
-    if (isset($_SESSION['userToken'])) {
-        dump($_SESSION['userToken']);
-    } elseif (isset($_GET['code'])) {
-        $currentUser = new SpotifyUser();
-        $_SESSION['userToken'] = $currentUser->getUserToken($_GET['code'], $devApp->client_id, $devApp->client_secret);
-        echo '<strong>User Code: </strong>' . $_GET['code'] . '<br/>';
-        redirect('/');
-    } else {
+    if (!isset($_GET['code'])) {
         echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
+    } elseif (!isset($_SESSION['access_token'])) {
+        $currentUser = new SpotifyUser();
+        $currentUser->requestAccessToken($devApp->client_id, $devApp->client_secret, $_GET['code']);
+        $_SESSION['access_token']= $currentUser->getAccessToken();
+        $_SESSION['refresh_token']=$currentUser->getRefreshToken();
+        $_SESSION['expiry_time']=$currentUser->getExpiresIn();
+    } else{
+        $currentUser = new SpotifyUser($_SESSION['access_token'],
+        $_SESSION['refresh_token'],
+        $_SESSION['expiry_time']);
+        echo('validated<br/>');
+        echo('expires in: ' . $currentUser->getExpiresIn() . '<br/>');
+        echo('current time: ' .time());
     }
+
 
 
 
@@ -31,12 +37,15 @@ session_start();
         function playerPause() {
             fetch('http://127.0.0.1:8000/api/pause');
         }
+
         function playerResume() {
             fetch('http://127.0.0.1:8000/api/resume')
         }
+
         function playerSkip() {
-            fetch('http://127.0.0.1:8000/api/skip')
+            fetch('http://127.0.0.1:8000/api/next')
         }
+
         function playerPrevious() {
             fetch('http://127.0.0.1:8000/api/previous')
         }
@@ -47,20 +56,4 @@ session_start();
         <button onclick="playerPrevious()">Previous</button>
         <button onclick="playerSkip()">Skip</button>
     </div>
-    <?php
-    if (isset($currentUser->accessToken) && $currentUser != "") {
-        $deviceList = $currentUser->getDevices()->devices;
-        dump($deviceList);
-        echo '<br/>';
-        foreach ($deviceList as $key => $device) {
-            if ($device->is_active) {
-                $activeDevice = [
-                    'id' => $device->id,
-                    'name' => $device->name,
-                ];
-            }
-        }
-
-    }
-    ?>
 </x-layout>
