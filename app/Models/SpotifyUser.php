@@ -96,12 +96,26 @@ class SpotifyUser extends Model
         }
     }
 
-    public function requestNavigation(String $navigationType)
+    public function requestNavigation(String $nextOrPrevious)
     {
         $this->checkAccessToken();
         $request = new CurlObject(
-            'https://api.spotify.com/v1/me/player/' . $navigationType,
+            'https://api.spotify.com/v1/me/player/' . $nextOrPrevious,
             'POST',
+            [
+                'Authorization: Bearer ' . $this->access_token,
+                'Content-Type: application.json',
+                'Content-Length: 0'
+            ]
+        );
+        dd($request->request());
+    }
+    public function requestPausePlay(String $pauseOrPlay)
+    {
+        $this->checkAccessToken();
+        $request = new CurlObject(
+            'https://api.spotify.com/v1/me/player/' . $pauseOrPlay,
+            'PUT',
             [
                 'Authorization: Bearer ' . $this->access_token,
                 'Content-Type: application.json',
@@ -117,10 +131,10 @@ class SpotifyUser extends Model
         $this->requestNavigation('previous');
     }
     public function resume(){
-        $this->requestNavigation('play');
+        $this->requestPausePlay('play');
     }
     public function pause(){
-        $this->requestNavigation('pause');
+        $this->requestPausePlay('pause');
     }
 
 }

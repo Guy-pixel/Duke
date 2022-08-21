@@ -50,10 +50,5 @@ session_start();
             fetch('http://127.0.0.1:8000/api/previous')
         }
     </script>
-    <div>
-        <button onclick="playerPause()">Pause</button>
-        <button onclick="playerResume()">Resume</button>
-        <button onclick="playerPrevious()">Previous</button>
-        <button onclick="playerSkip()">Skip</button>
-    </div>
+    <x-media-bar></x-media-bar>
 </x-layout>

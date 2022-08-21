@@ -1,0 +1,33 @@
+.media-bar{
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:10%;
+}
+.media-buttons{
+    display:flex;
+    height:80%;
+}
+.media-buttons button{
+    display:block;
+    border-radius:50%;
+    height:5vh;
+    width:5vh;
+    background:#1DB954;
+    border:none;
+    margin:5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.media-buttons button img{
+    height:3vh;
+    width:3vh;
+}
+

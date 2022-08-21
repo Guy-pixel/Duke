@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="../../js/app.js"></script>
+    <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
 </head>
 <body>
     {{ $slot }}
