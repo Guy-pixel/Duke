@@ -6,7 +6,9 @@ session_start();
 ?>
 
 <x-layout>
-
+<x-nav-bar></x-nav-bar>
+<x-side-bar></x-side-bar>
+    <x-media-bar></x-media-bar>
     <?php
 
     $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
@@ -17,16 +19,20 @@ session_start();
     } elseif (!isset($_SESSION['access_token'])) {
         $currentUser = new SpotifyUser();
         $currentUser->requestAccessToken($devApp->client_id, $devApp->client_secret, $_GET['code']);
-        $_SESSION['access_token']= $currentUser->getAccessToken();
-        $_SESSION['refresh_token']=$currentUser->getRefreshToken();
-        $_SESSION['expiry_time']=$currentUser->getExpiresIn();
-    } else{
+        $_SESSION['access_token'] = $currentUser->getAccessToken();
+        $_SESSION['refresh_token'] = $currentUser->getRefreshToken();
+        $_SESSION['expiry_time'] = $currentUser->getExpiresIn();
+    } else {
         $currentUser = new SpotifyUser($_SESSION['access_token'],
-        $_SESSION['refresh_token'],
-        $_SESSION['expiry_time']);
+            $_SESSION['refresh_token'],
+            $_SESSION['expiry_time']
+        );
+        $currentUser->requestUsername();
         echo('validated<br/>');
+        echo('oauth:' . $currentUser->getAccessToken() . '<br/>');
+        echo('Username:' . $currentUser->getUsername());
         echo('expires in: ' . $currentUser->getExpiresIn() . '<br/>');
-        echo('current time: ' .time());
+        echo('current time: ' . time());
     }
 
 
@@ -50,5 +56,5 @@ session_start();
             fetch('http://127.0.0.1:8000/api/previous')
         }
     </script>
-    <x-media-bar></x-media-bar>
+
 </x-layout>

@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Curl Object which has URL, Request Type, Headers and Post Fields as parameters
- * @param {string} URL to send it to.
- * @param {requestType}
+ * @param URL to send
+ * @param String Request type
  *
  */
 class CurlObject extends Model
