@@ -30,7 +30,7 @@ session_start();
         $userInfo=$currentUser->requestUserInfo();
         echo('validated<br/>');
         echo('oauth:' . $currentUser->getAccessToken() . '<br/>');
-        echo('Username:' . $currentUser->getUsername());
+        echo('Username:' . $currentUser->getUsername() . '<br/>');
         echo('expires in: ' . $currentUser->getExpiresIn() . '<br/>');
         echo('current time: ' . time());
     }

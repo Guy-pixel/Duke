@@ -26,7 +26,7 @@ class SpotifyDev extends Model
      * base64_encode of the client_id:client_secret
      * @return string token
      */
-    public function getToken(): string
+    public function getToken()
     {
         if (!isset($this->token)) {
             $getToken = new CurlObject(
@@ -40,7 +40,11 @@ class SpotifyDev extends Model
                     'grant_type' => 'client_credentials'
                 ]
             );
-            return $this->token = $getToken->request()->access_token;
+            if(isset($getToken->request()->access_token)) {
+                return $this->token = $getToken->request()->access_token;
+            } else {
+                return $getToken->request();
+            }
         } else {
             return $this->token;
         }
