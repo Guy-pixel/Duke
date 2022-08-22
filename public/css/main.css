@@ -44,4 +44,10 @@ body{
     height:10vh;
     left:0;
     width:100%;
+    align-items: center;
+
+}
+.user-info{
+    right:0;
+    position:fixed;
 }

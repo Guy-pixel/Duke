@@ -27,7 +27,7 @@ session_start();
             $_SESSION['refresh_token'],
             $_SESSION['expiry_time']
         );
-        $currentUser->requestUsername();
+        $userInfo=$currentUser->requestUserInfo();
         echo('validated<br/>');
         echo('oauth:' . $currentUser->getAccessToken() . '<br/>');
         echo('Username:' . $currentUser->getUsername());

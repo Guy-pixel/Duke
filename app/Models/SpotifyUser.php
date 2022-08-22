@@ -16,6 +16,16 @@ class SpotifyUser extends Model
     private string $refresh_token;
     private int $expiry_time;
 
+    protected $fillable =[
+        'username',
+        'access_token',
+        'refresh_token',
+        'expiry_time'
+    ];
+    protected $hidden = [
+
+    ];
+
     public function __construct($access_token = '', $refresh_token = '', $expiry_time = 0)
     {
         $this->access_token = $access_token;
@@ -66,7 +76,7 @@ class SpotifyUser extends Model
         }
     }
 
-    public function requestUsername(){
+    public function requestUserInfo(){
         $requestUsername= new CurlObject(
             'https://api.spotify.com/v1/me',
             'GET',
@@ -82,6 +92,7 @@ class SpotifyUser extends Model
         } else {
             $this->username=$response->id;
         }
+        return $response;
 
     }
 
