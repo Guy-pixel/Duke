@@ -1,3 +1,7 @@
+<?php
+use App\Models\SpotifyDev;
+?>
+
 <div class="nav-bar">
 {{$slot}}
     <div class="user-info">
@@ -5,7 +9,7 @@
         @if(isset($user))
             Logged in as {{$user}}
         @else
-            Login
+            <a href='https://accounts.spotify.com/authorize?<?=$devApp->createAuthorizationLink()?>'>Login</a>
         @endif
         </div>
         <div class="user-image">

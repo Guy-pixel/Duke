@@ -51,14 +51,20 @@ body{
 
 }
 .user-info{
+    height:5vh;
+    width:fit-content;
     right:2vw;
     position:fixed;
     display:flex;
     align-items: center;
     justify-content: center;
+    border-radius:20px;
 }
 .user-text{
     margin:5px;
+    color:white;
+    font-size:100%;
+
 }
 .user-image img{
     height:80%;
@@ -69,10 +75,16 @@ body{
     display:flex;
     background-color:lightgray;
     border-radius:50%;
-    height:20px;
-    width:20px;
+    heightw:3v;
+    width:3vw;
     justify-content: center;
     align-items: center;
-    anchor
+
+}
+.user-info:hover{
+    background-color:white;
+
+}
+@media (min-width:1000px){
 
 }
