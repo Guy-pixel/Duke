@@ -14,10 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('spotifyUsers', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id()->autoIncrement()->unsigned();
             $table->string('username');
-            $table->string('client_id');
-            $table->string('client_secret');
             $table->string('access_token');
             $table->string('refresh_token');
             $table->timestamp('expiry_time');

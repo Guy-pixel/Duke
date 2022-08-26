@@ -73,10 +73,10 @@ body{
 }
 .user-image{
     display:flex;
-    background-color:lightgray;
+    background-color:white;
     border-radius:50%;
-    heightw:3v;
-    width:3vw;
+    height:6vh;
+    width:6vh;
     justify-content: center;
     align-items: center;
 
@@ -84,6 +84,10 @@ body{
 .user-info:hover{
     background-color:white;
 
+}
+.card-text{
+    display:flex;
+    flex-direction: row;
 }
 @media (min-width:1000px){
 

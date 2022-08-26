@@ -27,7 +27,7 @@ session_start();
 
     $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
     $devApp->getToken();
-    $username="";
+    $username=NULL;
     if (!isset($_GET['code'])) {
         echo("<a href='https://accounts.spotify.com/authorize?" . $devApp->createAuthorizationLink() . "'>Log Into Spotify</a>");
     } elseif (!isset($_SESSION['access_token'])) {
@@ -50,7 +50,7 @@ session_start();
         $username=$currentUser->getUsername();
     }
     ?>
-    <x-nav-bar :user="$username"></x-nav-bar>
+    <x-nav-bar :user="$username" :></x-nav-bar>
     <x-side-bar></x-side-bar>
     <x-media-bar></x-media-bar>
 
