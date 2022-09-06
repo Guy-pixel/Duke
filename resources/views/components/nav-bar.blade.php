@@ -9,7 +9,7 @@ use App\Models\SpotifyDev;
         @if(isset($user))
             Logged in as {{$user}}
         @else
-            <a href='/signup'>Login</a>
+            <a href='/login'>Login</a>
         @endif
         </div>
         <div class="user-image">

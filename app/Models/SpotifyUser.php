@@ -48,7 +48,9 @@ class SpotifyUser extends Model
         return $this->expiry_time;
     }
     public function getUsername(){
+
         return $this->username;
+
     }
     public function requestAccessToken(string $devApp_id, string $devApp_secret, string $code)
     {
@@ -65,7 +67,9 @@ class SpotifyUser extends Model
                 'redirect_uri' => 'http://127.0.0.1:8000/'
             ]
         );
+
         $response = $requestAccess->request();
+
 
         if (!isset($response->access_token)) {
             dd($response);

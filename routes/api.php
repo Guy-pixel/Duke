@@ -24,4 +24,6 @@ Route::get('previous', [SpotifySongController::class, 'previousSong']);
 Route::get('resume', [SpotifySongController::class, 'resumeSong']);
 Route::get('pause', [SpotifySongController::class, 'pauseSong']);
 
+Route::post('checkUser', [UserController::class, 'checkUser']);
+
 
