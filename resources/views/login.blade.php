@@ -13,6 +13,7 @@
                     <input type="password" name="password" placeholder="Password">
                     <button type="submit">Login</button>
                 </form>
+                <button class="register-btn" href="/register">Sign Up</button>
             </div>
             <div class="login-footer">
 

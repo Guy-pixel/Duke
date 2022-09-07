@@ -24,16 +24,18 @@ class UserController extends Controller
     public static function deleteUser($userID = NULL, $userName = NULL, $userEmail = NULL)
     {
         if(isset($userID)){
-
+            $selectedUser = User::find($userID);
+            $selectedUser->delete();
         }elseif(isset($userName)){
-
+            $selectedUser = User::find($userName);
+            $selectedUser->delete();
         }elseif(isset($userEmail)){
-
+            $selectedUser = User::find($userEmail);
+            $selectedUser->delete();
         }else{
             $error = new \InvalidArgumentException('No parameters given.', 404);
         }
-        $selectedUser = new User::find();
-        $selectedUser->delete();
+
 
     }
 }
