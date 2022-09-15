@@ -6,23 +6,6 @@ session_start();
 ?>
 
 <x-layout>
-    <script>
-        function playerPause() {
-            fetch('http://127.0.0.1:8000/api/pause');
-        }
-
-        function playerResume() {
-            fetch('http://127.0.0.1:8000/api/resume')
-        }
-
-        function playerSkip() {
-            fetch('http://127.0.0.1:8000/api/next')
-        }
-
-        function playerPrevious() {
-            fetch('http://127.0.0.1:8000/api/previous')
-        }
-    </script>
     <?php
 
     $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
@@ -30,6 +13,7 @@ session_start();
     $username = NULL;
 
     ?>
+
     <x-nav-bar :user="$username"></x-nav-bar>
 
     <x-side-bar></x-side-bar>

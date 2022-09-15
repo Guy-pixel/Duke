@@ -28,3 +28,4 @@ Route::get('pause', [SpotifySongController::class, 'pauseSong']);
 Route::post('checkUser', [UserController::class, 'checkUser']);
 
 
+
