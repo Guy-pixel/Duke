@@ -21,6 +21,9 @@ body{
     margin: 10vh 0 10vh 0;
     color:var(--background-color);
 }
+/*
+======================Media Bar======================
+*/
 .media-bar{
     overflow: hidden;
     background-color: var(--bar-menu-color);
@@ -54,7 +57,9 @@ body{
     height:3vh;
     width:3vh;
 }
-
+/*
+=========================================================
+*/
 .nav-bar{
     position: fixed;
     top:0;
@@ -192,6 +197,18 @@ body{
     display:flex;
     align-content: center;
 }
+/*
+=========================Signup Card=================
+*/
+.signup-form-card{
+    padding:15px;
+    display:flex;
+    align-items: center;
+    flex-direction:column;
+    background-color:var(--secondary-color);
+    border-radius:10px;
+    border:var(--primary-color) 5px solid;
+}
 .signup-form{
     display:flex;
     flex-direction: row;
@@ -206,6 +223,12 @@ body{
     display:flex;
     flex-direction: column;
 }
+.signup-form button{
+    color:var(--secondary-color);
+}
+/*
+===========================Login Card===========
+*/
 .login-card{
     padding:15px;
     display:flex;
@@ -213,14 +236,29 @@ body{
     flex-direction:column;
     background-color:var(--secondary-color);
     border-radius:10px;
+    border:var(--primary-color) 5px solid;
+}
+.login-body{
+    flex-direction: column;
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 .login-form{
     display:flex;
     flex-direction: column;
     background-color:var(--secondary-color);
-
+    align-items: center;
 }
 .login-form input{
     padding:5px;
     margin:5px;
 }
+.login-card button{
+    color:var(--secondary-color);
+    width:100%;
+    margin:5px;
+}
+/*
+================================================
+*/

@@ -1,13 +1,14 @@
 <?php
 use App\Models\SpotifyDev;
+
 ?>
 <?php //$devApp->createAuthorizationLink(); ?>
 <div class="nav-bar">
 {{$slot}}
     <div class="user-info">
         <div class="user-text">
-        @if(isset($user))
-            Logged in as {{$user}}
+        @if(Auth::check())
+                <a href="/logout">Logout</a>Logged in as {{Auth::user()->username}}
         @else
             <a href='/login'>Login</a>
         @endif

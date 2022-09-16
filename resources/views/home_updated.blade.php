@@ -6,9 +6,6 @@ session_start();
 ?>
 
 <x-layout>
-    <script>
-
-    </script>
     <?php
 
     $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
@@ -16,6 +13,7 @@ session_start();
     $username = NULL;
 
     ?>
+
     <x-nav-bar :user="$username"></x-nav-bar>
 
     <x-side-bar></x-side-bar>

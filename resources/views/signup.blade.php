@@ -15,7 +15,7 @@
                         </label>
 
                         <label for="email">
-                            <input class="signup-form-inputs" type="email" name="email" placeholder="email">
+                            <input class="signup-form-inputs" type="email" name="email" placeholder="Email">
                         </label>
                         <button type="submit">Signup</button>
 

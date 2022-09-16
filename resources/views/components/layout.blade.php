@@ -12,5 +12,10 @@
 </head>
 <body>
     {{ $slot }}
+    <script>
+        @if(session()->has('message'))
+        alert("{{ session('message') }}")
+        @endif
+    </scripT>
 </body>
 </html>
