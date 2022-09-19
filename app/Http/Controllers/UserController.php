@@ -61,6 +61,7 @@ class UserController extends Controller
     }
     public static function logout(){
         Auth::logout();
+        return back();
     }
     public static function deleteUser($userID = NULL, $userName = NULL, $userEmail = NULL)
     {

@@ -18,6 +18,7 @@ session_start();
 
     <x-side-bar></x-side-bar>
     <div class="inline-view">
+
         <x-voting-card></x-voting-card>
         <x-voting-card></x-voting-card>
         <x-voting-card></x-voting-card>

@@ -24,7 +24,7 @@ class SpotifyDev extends Model
     /**
      * Simple getToken request which pulls authorisation token from Spotify based on the
      * base64_encode of the client_id:client_secret
-     * @return string token
+     * @return string Token
      */
     public function getToken()
     {

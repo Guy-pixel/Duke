@@ -11,6 +11,7 @@ use JetBrains\PhpStorm\NoReturn;
 class SpotifyUser extends Model
 {
     use HasFactory;
+    private int $id;
     private string $username;
     private string $access_token;
     private string $refresh_token;
@@ -32,7 +33,10 @@ class SpotifyUser extends Model
         $this->refresh_token = $refresh_token;
         $this->expiry_time = $expiry_time;
     }
-
+    public function getId(): int
+    {
+        return $this->id;
+    }
     public function getAccessToken()
     {
         return $this->access_token;
@@ -52,6 +56,12 @@ class SpotifyUser extends Model
         return $this->username;
 
     }
+    /**
+     * Request the access token for the user and set it to the current instance
+     * @param string devApp Id
+     * @param string devApp Secret
+     * @param string devApp Token
+     */
     public function requestAccessToken(string $devApp_id, string $devApp_secret, string $code)
     {
         $requestAccess = new CurlObject(
