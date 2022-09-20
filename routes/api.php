@@ -19,6 +19,9 @@ use App\Http\Controllers\SpotifySongController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('SpotifyConnect')->get('/connect', function (){
+
+});
 Route::get('test', [SpotifySongController::class, 'testResponse']);
 Route::get('next', [SpotifySongController::class, 'nextSong']);
 Route::get('previous', [SpotifySongController::class, 'previousSong']);

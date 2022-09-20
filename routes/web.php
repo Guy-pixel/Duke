@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SpotifyUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,9 @@ Route::post('/signup/request', function(Request $request) {
 });
 Route::post('login', [UserController::class, 'loginUser']);
 Route::get('logout', [UserController::class, 'logout']);
-
+Route::get('connect', function(){
+     return SpotifyUserController::createUser(session('devToken'));
+})->middleware('spotify.connect');
 //
 //Auth::routes();
 //

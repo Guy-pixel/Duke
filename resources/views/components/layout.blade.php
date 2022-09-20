@@ -16,6 +16,6 @@
         @if(session()->has('message'))
         alert("{{ session('message') }}")
         @endif
-    </scripT>
+    </script>
 </body>
 </html>

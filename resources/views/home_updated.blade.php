@@ -8,8 +8,7 @@ session_start();
 <x-layout>
     <?php
 
-    $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
-    $devApp->getToken();
+
     $username = NULL;
 
     ?>
@@ -18,7 +17,7 @@ session_start();
 
     <x-side-bar></x-side-bar>
     <div class="inline-view">
-
+        <a href="/connect">Connect to Spotify</a>
         <x-voting-card></x-voting-card>
         <x-voting-card></x-voting-card>
         <x-voting-card></x-voting-card>

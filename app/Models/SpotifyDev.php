@@ -13,7 +13,6 @@ class SpotifyDev extends Model
     public string $client_id;
     public string $client_secret;
     private string $token;
-    public string $userToken;
 
     public function __construct(string $client_id, string $client_secret)
     {
@@ -52,7 +51,7 @@ class SpotifyDev extends Model
 
     public function createAuthorizationLink(): string
     {
-        return CurlObject::buildPostFields(
+        return env('SPOTIFY_API_URL') . CurlObject::buildPostFields(
             [
                 'response_type' => 'code',
                 'client_id' => $this->client_id,
