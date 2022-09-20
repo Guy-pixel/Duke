@@ -51,13 +51,13 @@ class SpotifyDev extends Model
 
     public function createAuthorizationLink(): string
     {
-        return env('SPOTIFY_API_URL') . CurlObject::buildPostFields(
+        return env('SPOTIFY_AUTHORIZATION_URL') . CurlObject::buildPostFields(
             [
                 'response_type' => 'code',
                 'client_id' => $this->client_id,
                 'scope' => 'app-remote-control user-top-read user-read-currently-playing user-read-recently-played streaming app-remote-control user-read-playback-state user-modify-playback-state',
                 'show_dialog' => True,
-                'redirect_uri' => 'http://127.0.0.1:8000/'
+                'redirect_uri' => env('SPOTIFY_AUTHORIZATION_REDIRECT_URI')
             ]
         );
     }
