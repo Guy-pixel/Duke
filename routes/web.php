@@ -40,6 +40,7 @@ Route::get('logout', [UserController::class, 'logout']);
 Route::get('connect', function(){
      return SpotifyUserController::createUser(session('devToken'));
 })->middleware('spotify.connect');
+Route::get('spotifyRedirect', );
 //
 //Auth::routes();
 //
