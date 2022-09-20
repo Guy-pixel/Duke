@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('spotifyUsers', function (Blueprint $table) {
+        Schema::create('spotify_users', function (Blueprint $table) {
             $table->id()->autoIncrement()->unsigned();
             $table->string('username');
             $table->string('access_token');
             $table->string('refresh_token');
             $table->timestamp('expiry_time');
+            $table->timestamps();
         });
     }
 

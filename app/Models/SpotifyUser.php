@@ -27,8 +27,9 @@ class SpotifyUser extends Model
 
     ];
 
-    public function __construct($access_token = '', $refresh_token = '', $expiry_time = 0)
+    public function __construct($username= '',$access_token = '', $refresh_token = '', $expiry_time = 0)
     {
+        $this->username=$username;
         $this->access_token = $access_token;
         $this->refresh_token = $refresh_token;
         $this->expiry_time = $expiry_time;
@@ -47,7 +48,7 @@ class SpotifyUser extends Model
         return $this->refresh_token;
     }
 
-    public function getExpiresIn()
+    public function getExpiryTime()
     {
         return $this->expiry_time;
     }
@@ -74,7 +75,7 @@ class SpotifyUser extends Model
             [
                 'grant_type' => 'authorization_code',
                 'code' => $code,
-                'redirect_uri' => 'http://127.0.0.1:8000/'
+                'redirect_uri' => env('SPOTIFY_AUTHORIZATION_REDIRECT_URI')
             ]
         );
 

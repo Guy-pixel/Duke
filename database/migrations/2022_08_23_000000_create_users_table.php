@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('spotify_user_id')->nullable();
-            $table->foreign('spotify_user_id')->references('id')->on('spotifyUsers')->onDelete('cascade');
+            $table->foreign('spotify_user_id')->references('id')->on('spotify_users')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

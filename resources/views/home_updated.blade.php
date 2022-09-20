@@ -7,8 +7,11 @@ session_start();
 
 <x-layout>
     <?php
-
-
+    $spotifyUser = unserialize(session('createdUser'));
+    $username=$spotifyUser->getUsername();
+    if(isset($username)){
+    dd($spotifyUser);
+    }
     $username = NULL;
 
     ?>

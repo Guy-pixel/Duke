@@ -31,16 +31,24 @@ Route::post('/signup/request', function(Request $request) {
     $ifError=UserController::signup($request);
     if(isset($ifError['code'])){
 //        $stringifiedError = '?message=' . $ifError['message'];
-        $request->session()->flash('message', 'Duplicate user found');
+        $request->session()->flash('message', 'Credentials not found');
     }
     return redirect('/');
 });
 Route::post('login', [UserController::class, 'loginUser']);
 Route::get('logout', [UserController::class, 'logout']);
 Route::get('connect', function(){
-     return SpotifyUserController::createUser(session('devToken'));
-})->middleware('spotify.connect');
-Route::get('spotifyRedirect', );
+     return SpotifyUserController::signInPopup(session('devToken'));
+});
+Route::get('spotifyRedirect', function(){
+    if($_GET['code']) {
+        $createdUser = SpotifyUserController::createUser($_GET['code']);
+        session(['createdUser'=>serialize($createdUser)]);
+        return redirect('/');
+    } else {
+        return redirect('/');
+    }
+});
 //
 //Auth::routes();
 //

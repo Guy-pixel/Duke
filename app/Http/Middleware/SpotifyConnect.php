@@ -11,7 +11,6 @@ class SpotifyConnect
         $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
         $token = $devApp->getToken();
         session(['devToken'=>$token]);
-
-        return $next($request);
+        return redirect($devApp->createAuthorizationLink());
     }
 }
