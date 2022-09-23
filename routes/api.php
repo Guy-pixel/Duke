@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Models\SpotifyUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpotifySongController;
-
+use Illuminate\Support\Facades\Session;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,9 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('SpotifyConnect')->get('/connect', function (){
 
 });
-Route::get('test', [SpotifySongController::class, 'testResponse']);
 Route::get('next', [SpotifySongController::class, 'nextSong']);
-Route::get('previous', [SpotifySongController::class, 'previousSong']);
+Route::get('previous/{username}', function($username){
+    $spotifyUser = SpotifyUser::where('username', $username)->first();
+    SpotifySongController::previousSong($spotifyUser);
+});
 Route::get('resume', [SpotifySongController::class, 'resumeSong']);
 Route::get('pause', [SpotifySongController::class, 'pauseSong']);
 

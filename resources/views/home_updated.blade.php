@@ -7,19 +7,23 @@ session_start();
 
 <x-layout>
     <?php
-    $spotifyUser = unserialize(session('createdUser'));
-    $username=$spotifyUser->getUsername();
-    if(isset($username)){
-    dd($spotifyUser);
-    }
-    $username = NULL;
+    $sessionSpotifyUser=session('spotifyUser');
 
+    if(isset($spotifyUser['username'])){
+        $spotifyUser=SpotifyUser::where('username', $spotifyUser['username'])->first();
+        $spotifyUserId=$spotifyUser->getId();
+    } else {
+        $spotifyUserId=NULL;
+    }
+
+    $username = Null;
     ?>
 
     <x-nav-bar :user="$username"></x-nav-bar>
 
     <x-side-bar></x-side-bar>
     <div class="inline-view">
+
         <a href="/connect">Connect to Spotify</a>
         <x-voting-card></x-voting-card>
         <x-voting-card></x-voting-card>
@@ -30,7 +34,7 @@ session_start();
         <x-voting-card></x-voting-card>
         <x-voting-card></x-voting-card>
     </div>
-    <x-media-bar></x-media-bar>
+    <x-media-bar :spotifyUserId="$spotifyUserId"></x-media-bar>
 
 
 </x-layout>

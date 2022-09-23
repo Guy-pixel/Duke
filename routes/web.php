@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,16 +21,16 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('home_updated');
 })->name('home');
-Route::get('/login', function(){
+Route::get('/login', function () {
     return view('login');
 });
 
-Route::get('/signup', function(){
+Route::get('/signup', function () {
     return view('signup');
 })->name('signup');
-Route::post('/signup/request', function(Request $request) {
-    $ifError=UserController::signup($request);
-    if(isset($ifError['code'])){
+Route::post('/signup/request', function (Request $request) {
+    $ifError = UserController::signup($request);
+    if (isset($ifError['code'])) {
 //        $stringifiedError = '?message=' . $ifError['message'];
         $request->session()->flash('message', 'Credentials not found');
     }
@@ -37,17 +38,20 @@ Route::post('/signup/request', function(Request $request) {
 });
 Route::post('login', [UserController::class, 'loginUser']);
 Route::get('logout', [UserController::class, 'logout']);
-Route::get('connect', function(){
-     return SpotifyUserController::signInPopup(session('devToken'));
+Route::get('connect', function () {
+    return SpotifyUserController::signInPopup(session('devToken'));
 });
-Route::get('spotifyRedirect', function(){
-    if($_GET['code']) {
+Route::get('spotifyRedirect', function () {
+    if ($_GET['code']) {
         $createdUser = SpotifyUserController::createUser($_GET['code']);
-        session(['createdUser'=>serialize($createdUser)]);
-        return redirect('/');
-    } else {
-        return redirect('/');
+        session(['spotifyUser' => [
+            'username' => $createdUser->getUsername(),
+            'access_token' => $createdUser->getAccessToken(),
+            'refresh_token' => $createdUser->getRefreshToken(),
+            'expiry_time' => $createdUser->getExpiryTime()
+        ]]);
     }
+    return redirect('/');
 });
 //
 //Auth::routes();

@@ -8,45 +8,29 @@ use Illuminate\Http\Request;
 
 class SpotifySongController extends Controller
 {
-    public function testResponse()
-    {
-        return array(
-            'id' => '1',
-            'name' => 'guy',
-            'lastname' => 'gasson'
-        );
-    }
 
-    public function nextSong()
+    public static function nextSong()
     {
-        session_start();
-        $currentUser = new SpotifyUser($_SESSION['access_token'], $_SESSION['refresh_token']);
+        $currentUser = new SpotifyUser(session('spotifyUser')['access_token'], session('spotifyUser')['refresh_token']);
         $currentUser->next();
-        session_abort();
     }
 
-    public function previousSong()
+    public static function previousSong(SpotifyUser $spotifyUser)
     {
-        session_start();
-        $currentUser = new SpotifyUser($_SESSION['access_token'], $_SESSION['refresh_token']);
+        $currentUser = new SpotifyUser($spotifyUser->getAccessToken(), $spotifyUser->getRefreshToken());
         $currentUser->previous();
-        session_abort();
     }
 
-    public function resumeSong()
+    public static function resumeSong()
     {
-        session_start();
-        $currentUser = new SpotifyUser($_SESSION['access_token'], $_SESSION['refresh_token']);
+        $currentUser = new SpotifyUser(session('spotifyUser')['access_token'], session('spotifyUser')['refresh_token']);
         $currentUser->resume();
-        session_abort();
     }
 
-    public function pauseSong()
+    public static function pauseSong()
     {
-        session_start();
-        $currentUser = new SpotifyUser($_SESSION['access_token'], $_SESSION['refresh_token']);
+        $currentUser = new SpotifyUser(session('spotifyUser')['access_token'], session('spotifyUser')['refresh_token']);
         $currentUser->pause();
-        session_abort();
     }
 
 
