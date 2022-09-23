@@ -11,13 +11,14 @@ use JetBrains\PhpStorm\NoReturn;
 class SpotifyUser extends Model
 {
     use HasFactory;
+
     private int $id;
     private string $username;
     private string $access_token;
     private string $refresh_token;
     private int $expiry_time;
 
-    protected $fillable =[
+    protected $fillable = [
         'username',
         'access_token',
         'refresh_token',
@@ -26,18 +27,20 @@ class SpotifyUser extends Model
     protected $hidden = [
 
     ];
-
-    public function __construct($username= '',$access_token = '', $refresh_token = '', $expiry_time = 0)
+    protected $table='spotify_users';
+    public function __construct($username = NULL, $access_token = '', $refresh_token = '', $expiry_time = 0)
     {
-        $this->username=$username;
+        $this->username = $username;
         $this->access_token = $access_token;
         $this->refresh_token = $refresh_token;
         $this->expiry_time = $expiry_time;
     }
+
     public function getId(): int
     {
         return $this->id;
     }
+
     public function getAccessToken()
     {
         return $this->access_token;
@@ -52,11 +55,14 @@ class SpotifyUser extends Model
     {
         return $this->expiry_time;
     }
-    public function getUsername(){
+
+    public function getUsername()
+    {
 
         return $this->username;
 
     }
+
     /**
      * Request the access token for the user and set it to the current instance
      * @param string devApp Id
@@ -91,8 +97,9 @@ class SpotifyUser extends Model
         }
     }
 
-    public function requestUserInfo(){
-        $requestUsername= new CurlObject(
+    public function requestUserInfo()
+    {
+        $requestUsername = new CurlObject(
             'https://api.spotify.com/v1/me',
             'GET',
             [
@@ -102,10 +109,10 @@ class SpotifyUser extends Model
             []
         );
         $response = $requestUsername->request();
-        if(!isset($response->id)){
+        if (!isset($response->id)) {
             dd($response);
         } else {
-            $this->username=$response->id;
+            $this->username = $response->id;
         }
         return $response;
 
@@ -143,7 +150,7 @@ class SpotifyUser extends Model
         }
     }
 
-    public function requestNavigation(String $nextOrPrevious)
+    public function requestNavigation(string $nextOrPrevious)
     {
         $this->checkAccessToken();
         $request = new CurlObject(
@@ -155,9 +162,11 @@ class SpotifyUser extends Model
                 'Content-Length: 0'
             ]
         );
-        dd($request->request());
+
+        $request->request();
     }
-    public function requestPausePlay(String $pauseOrPlay)
+
+    public function requestPausePlay(string $pauseOrPlay)
     {
         $this->checkAccessToken();
         $request = new CurlObject(
@@ -171,16 +180,24 @@ class SpotifyUser extends Model
         );
         dd($request->request());
     }
-    public function next(){
+
+    public function next()
+    {
         $this->requestNavigation('next');
     }
-    public function previous(){
+
+    public function previous()
+    {
         $this->requestNavigation('previous');
     }
-    public function resume(){
+
+    public function resume()
+    {
         $this->requestPausePlay('play');
     }
-    public function pause(){
+
+    public function pause()
+    {
         $this->requestPausePlay('pause');
     }
 

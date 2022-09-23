@@ -8,10 +8,13 @@ session_start();
 <x-layout>
     <?php
     $sessionSpotifyUser=session('spotifyUser');
-
-    if(isset($spotifyUser['username'])){
-        $spotifyUser=SpotifyUser::where('username', $spotifyUser['username'])->first();
-        $spotifyUserId=$spotifyUser->getId();
+    if(isset($sessionSpotifyUser['username'])){
+        $spotifyUser = SpotifyUser::where('username', '=', $sessionSpotifyUser['username'])->first();;
+        if(isset($spotifyUser->getAttributes()['username'])){
+        $spotifyUserId=$spotifyUser->getAttributes()['username'];
+        } else{
+            $spotifyUserId=NULL;
+        }
     } else {
         $spotifyUserId=NULL;
     }

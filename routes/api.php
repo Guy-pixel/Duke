@@ -26,7 +26,7 @@ Route::middleware('SpotifyConnect')->get('/connect', function (){
 Route::get('next', [SpotifySongController::class, 'nextSong']);
 Route::get('previous/{username}', function($username){
     $spotifyUser = SpotifyUser::where('username', $username)->first();
-    SpotifySongController::previousSong($spotifyUser);
+    SpotifySongController::previousSong($spotifyUser->getAttributes()['access_token'], $spotifyUser->getAttributes()['refresh_token']);
 });
 Route::get('resume', [SpotifySongController::class, 'resumeSong']);
 Route::get('pause', [SpotifySongController::class, 'pauseSong']);

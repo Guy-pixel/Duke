@@ -26,6 +26,7 @@ class User extends Authenticatable
         'spotify_user_id'
     ];
 
+
     protected function password(): Attribute
     {
         return Attribute::make(
