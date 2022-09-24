@@ -9,27 +9,27 @@ use Illuminate\Http\Request;
 class SpotifySongController extends Controller
 {
 
-    public static function nextSong()
+    public static function nextSong($accessToken, $refreshToken)
     {
-        $currentUser = new SpotifyUser(session('spotifyUser')['access_token'], session('spotifyUser')['refresh_token']);
+        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
         $currentUser->next();
     }
 
     public static function previousSong($accessToken, $refreshToken)
     {
-        $currentUser = new SpotifyUser($accessToken, $refreshToken);
+        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
         $currentUser->previous();
     }
 
-    public static function resumeSong()
+    public static function resumeSong($accessToken, $refreshToken)
     {
-        $currentUser = new SpotifyUser(session('spotifyUser')['access_token'], session('spotifyUser')['refresh_token']);
+        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
         $currentUser->resume();
     }
 
-    public static function pauseSong()
+    public static function pauseSong($accessToken, $refreshToken)
     {
-        $currentUser = new SpotifyUser(session('spotifyUser')['access_token'], session('spotifyUser')['refresh_token']);
+        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
         $currentUser->pause();
     }
 

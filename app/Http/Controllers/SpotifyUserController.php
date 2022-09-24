@@ -39,7 +39,7 @@ class SpotifyUserController extends Controller
                 'expiry_time'=>date("Y-m-d H:i:s", substr($currentUser->getExpiryTime(), 0, 10))
             ]);
         } else {
-            // refresh or re-request access token
+            // refresh or re-request access token12122
 
         }
         return $currentUser;

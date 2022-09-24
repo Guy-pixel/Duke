@@ -28,7 +28,7 @@ class SpotifyUser extends Model
 
     ];
     protected $table='spotify_users';
-    public function __construct($username = NULL, $access_token = '', $refresh_token = '', $expiry_time = 0)
+    public function __construct($username = '', $access_token = '', $refresh_token = '', $expiry_time = 0)
     {
         $this->username = $username;
         $this->access_token = $access_token;
