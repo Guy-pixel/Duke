@@ -10,7 +10,7 @@ class SpotifyUserController extends Controller
 {
 
     static function connectAccount(User $user, SpotifyDev $devApp){
-        $currentUser = self::createUser($devApp);
+        $spotifyUser = self::createUser($devApp);
 
 
 
@@ -18,11 +18,24 @@ class SpotifyUserController extends Controller
     static function SSO(){
         $currentUser = new SpotifyUser();
     }
+
+    /**
+     * Creates a redirect to the authorization link.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     static function signInPopup(){
         $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'),
             env('SPOTIFY_CLIENT_SECRET'));
         return redirect($devApp->createAuthorizationLink());
     }
+
+    /**
+     * Creates a user based on the spotify redirect code.
+     * If it's a duplicate, attempt to refresh the access token.
+     *
+     * @param string $code
+     * @return SpotifyUser
+     */
     static function createUser($code){
         $currentUser = new SpotifyUser();
         $currentUser->requestAccessToken(env('SPOTIFY_CLIENT_ID'),

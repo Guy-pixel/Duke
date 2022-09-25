@@ -14,6 +14,12 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    private int $id;
+    private string $username;
+    private string $email;
+    private string $password;
+    private int $spotify_user_id;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -26,7 +32,32 @@ class User extends Authenticatable
         'spotify_user_id'
     ];
 
+    /**
+     * Returns the spotify_user_id.
+     *
+     * @return int
+     */
+    public function getSpotifyUserId(){
+        return $this->spotify_user_id;
+    }
 
+    /**
+     *
+     * Set the value of the property spotify_user_id.
+     *
+     * @param int $id
+     * @return void
+     */
+
+    public function setSpotifyUserId(int $id): void
+    {
+        $this->spotify_user_id = $id;
+    }
+
+    /**
+     * Hashes the password and returns the hash.
+     * @return Attribute
+     */
     protected function password(): Attribute
     {
         return Attribute::make(

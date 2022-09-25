@@ -28,6 +28,14 @@ class SpotifyUser extends Model
 
     ];
     protected $table='spotify_users';
+
+    /**
+     * Spotify User class which creates an instance of an authorized spotify user.
+     * @param string $username
+     * @param string $access_token
+     * @param string $refresh_token
+     * @param integer $expiry_time
+     */
     public function __construct($username = '', $access_token = '', $refresh_token = '', $expiry_time = 0)
     {
         $this->username = $username;
@@ -51,11 +59,19 @@ class SpotifyUser extends Model
         return $this->refresh_token;
     }
 
+    /**
+     * Returns the expiry_time of the object which
+     * @return int|mixed
+     */
     public function getExpiryTime()
     {
         return $this->expiry_time;
     }
 
+    /**
+     * Returns the username of the object
+     * @return mixed|string
+     */
     public function getUsername()
     {
 
@@ -97,6 +113,11 @@ class SpotifyUser extends Model
         }
     }
 
+    /**
+     * Requests the username of the spotify user, update later to add further information.
+     *
+     * @return mixed
+     */
     public function requestUserInfo()
     {
         $requestUsername = new CurlObject(
@@ -118,6 +139,10 @@ class SpotifyUser extends Model
 
     }
 
+    /**
+     * Refresh the access token using the refresh token.
+     * @return string|void
+     */
     public function refreshAccessToken()
     {
         $refreshAccessToken = new CurlObject(
@@ -150,6 +175,11 @@ class SpotifyUser extends Model
         }
     }
 
+    /**
+     * Send a cURL API request to go "next" or "previous" based on the variable passed.
+     * @param string $nextOrPrevious
+     * @return void
+     */
     public function requestNavigation(string $nextOrPrevious)
     {
         $this->checkAccessToken();
@@ -166,6 +196,11 @@ class SpotifyUser extends Model
         $request->request();
     }
 
+    /**
+     * Send a cURL API request to "pause" or "play" based on the variable passed.
+     * @param string $pauseOrPlay
+     * @return void
+     */
     public function requestPausePlay(string $pauseOrPlay)
     {
         $this->checkAccessToken();
