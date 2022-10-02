@@ -35,6 +35,7 @@ Route::get('previous/{username}', function ($username) {
     SpotifySongController::previousSong(
         $spotifyUser->getAttributes()['access_token'],
         $spotifyUser->getAttributes()['refresh_token']);
+    // Why does $spotifyUser->getAccessToken() not work if it's a defined method?
 });
 Route::get('resume/{username}', function ($username) {
     $spotifyUser = SpotifyUser::where('username', $username)->first();

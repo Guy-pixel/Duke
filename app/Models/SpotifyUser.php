@@ -34,9 +34,12 @@ class SpotifyUser extends Model
      * @param string $username
      * @param string $access_token
      * @param string $refresh_token
-     * @param integer $expiry_time
+     * @param int $expiry_time
      */
-    public function __construct($username = '', $access_token = '', $refresh_token = '', $expiry_time = 0)
+    public function __construct(string $username = '',
+                                string $access_token = '',
+                                string $refresh_token = '',
+                                int    $expiry_time = 0)
     {
         $this->username = $username;
         $this->access_token = $access_token;
@@ -49,7 +52,7 @@ class SpotifyUser extends Model
         return $this->id;
     }
 
-    public function getAccessToken()
+    public function getAccessToken(): string
     {
         return $this->access_token;
     }

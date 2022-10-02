@@ -7,16 +7,16 @@ session_start();
 
 <x-layout>
     <?php
-    $sessionSpotifyUser=session('spotifyUser');
-    if(isset($sessionSpotifyUser['username'])){
+    $sessionSpotifyUser = session('spotifyUser');
+    if (isset($sessionSpotifyUser['username'])) {
         $spotifyUser = SpotifyUser::where('username', '=', $sessionSpotifyUser['username'])->first();;
-        if(isset($spotifyUser->getAttributes()['username'])){
-        $spotifyUserId=$spotifyUser->getAttributes()['username'];
-        } else{
-            $spotifyUserId=NULL;
+        if (isset($spotifyUser->getAttributes()['username'])) {
+            $spotifyUserId = $spotifyUser->getAttributes()['username'];
+        } else {
+            $spotifyUserId = NULL;
         }
     } else {
-        $spotifyUserId=NULL;
+        $spotifyUserId = NULL;
     }
 
     $username = Null;
@@ -26,16 +26,18 @@ session_start();
 
     <x-side-bar></x-side-bar>
     <div class="inline-view">
-
-        <a href="/connect">Connect to Spotify</a>
-        <x-voting-card></x-voting-card>
-        <x-voting-card></x-voting-card>
-        <x-voting-card></x-voting-card>
-        <x-voting-card></x-voting-card>
-        <x-voting-card></x-voting-card>
-        <x-voting-card></x-voting-card>
-        <x-voting-card></x-voting-card>
-        <x-voting-card></x-voting-card>
+        @if(!isset($spotifyUserId))
+            <a href="/connect">Connect to Spotify</a>
+        @else
+            <x-voting-card></x-voting-card>
+            <x-voting-card></x-voting-card>
+            <x-voting-card></x-voting-card>
+            <x-voting-card></x-voting-card>
+            <x-voting-card></x-voting-card>
+            <x-voting-card></x-voting-card>
+            <x-voting-card></x-voting-card>
+            <x-voting-card></x-voting-card>
+        @endif
     </div>
     <x-media-bar :spotifyUserId="$spotifyUserId"></x-media-bar>
 

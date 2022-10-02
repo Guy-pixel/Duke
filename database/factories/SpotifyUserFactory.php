@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SpotifyUser>
@@ -18,8 +19,8 @@ class SpotifyUserFactory extends Factory
     {
         return [
             'username'=>$this->faker->name(),
-            'access_token'=>$this->faker->password(),
-            'refresh_token'=>$this->faker->password(),
+            'access_token'=>Str::random(10),
+            'refresh_token'=>Str::random(10),
             'expiry_time'=>$this->faker->unixTime(),
         ];
     }

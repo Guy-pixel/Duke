@@ -5,6 +5,7 @@ use App\Models\SpotifyUser;
 use App\Models\SpotifyDev;
 use App\Models\User;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
 
 class SpotifyUserController extends Controller
 {
@@ -23,7 +24,8 @@ class SpotifyUserController extends Controller
      * Creates a redirect to the authorization link.
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    static function signInPopup(){
+    static function signInPopup(): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    {
         $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'),
             env('SPOTIFY_CLIENT_SECRET'));
         return redirect($devApp->createAuthorizationLink());
@@ -36,7 +38,8 @@ class SpotifyUserController extends Controller
      * @param string $code
      * @return SpotifyUser
      */
-    static function createUser($code){
+    static function createUser(string $code): SpotifyUser
+    {
         $currentUser = new SpotifyUser();
         $currentUser->requestAccessToken(env('SPOTIFY_CLIENT_ID'),
             env('SPOTIFY_CLIENT_SECRET'),
@@ -53,6 +56,12 @@ class SpotifyUserController extends Controller
             ]);
         } else {
             // refresh or re-request access token12122
+
+            try{
+                $existingUser->refreshAccessToken();
+            }catch(Exception $e){
+                return 'Existing User Found' . $e->getMessage();
+            }
 
         }
         return $currentUser;
