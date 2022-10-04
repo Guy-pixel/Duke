@@ -46,13 +46,13 @@ class SpotifyUserController extends Controller
             $code
         );
         $currentUser->requestUserInfo();
-        $existingUser = SpotifyUser::where('username', $currentUser->getUsername())->first();
+        $existingUser = SpotifyUser::where('username', $currentUser->username)->first();
         if(!isset($existingUser)){
             SpotifyUser::create([
-                'username'=>$currentUser->getUsername(),
-                'access_token'=>$currentUser->getAccessToken(),
-                'refresh_token'=>$currentUser->getRefreshToken(),
-                'expiry_time'=>date("Y-m-d H:i:s", substr($currentUser->getExpiryTime(), 0, 10))
+                'username'=>$currentUser->username,
+                'access_token'=>$currentUser->access_token,
+                'refresh_token'=>$currentUser->refresh_token,
+                'expiry_time'=>date("Y-m-d H:i:s", substr($currentUser->expiry_time, 0, 10))
             ]);
         } else {
             // refresh or re-request access token12122

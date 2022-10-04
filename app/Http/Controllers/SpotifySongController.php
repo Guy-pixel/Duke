@@ -21,10 +21,9 @@ class SpotifySongController extends Controller
         $currentUser->previous();
     }
 
-    public static function resumeSong($accessToken, $refreshToken)
+    public static function resumeSong(SpotifyUser $spotifyUser)
     {
-        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
-        $currentUser->resume();
+        $spotifyUser->resume();
     }
 
     public static function pauseSong($accessToken, $refreshToken)

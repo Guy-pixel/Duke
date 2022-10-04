@@ -39,9 +39,7 @@ Route::get('previous/{username}', function ($username) {
 });
 Route::get('resume/{username}', function ($username) {
     $spotifyUser = SpotifyUser::where('username', $username)->first();
-    SpotifySongController::resumeSong(
-        $spotifyUser->getAttributes()['access_token'],
-        $spotifyUser->getAttributes()['refresh_token']);
+    SpotifySongController::resumeSong($spotifyUser);
 });
 
 Route::get('pause/{username}', function($username){

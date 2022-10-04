@@ -12,11 +12,6 @@ class SpotifyUser extends Model
 {
     use HasFactory;
 
-    private int $id;
-    private string $username;
-    private string $access_token;
-    private string $refresh_token;
-    private int $expiry_time;
 
     protected $fillable = [
         'username',
@@ -24,28 +19,33 @@ class SpotifyUser extends Model
         'refresh_token',
         'expiry_time'
     ];
+    protected $dates = [
+        'expiry_time',
+        'created_at',
+        'updated_at'
+    ];
     protected $hidden = [
 
     ];
     protected $table='spotify_users';
 
-    /**
-     * Spotify User class which creates an instance of an authorized spotify user.
-     * @param string $username
-     * @param string $access_token
-     * @param string $refresh_token
-     * @param int $expiry_time
-     */
-    public function __construct(string $username = '',
-                                string $access_token = '',
-                                string $refresh_token = '',
-                                int    $expiry_time = 0)
-    {
-        $this->username = $username;
-        $this->access_token = $access_token;
-        $this->refresh_token = $refresh_token;
-        $this->expiry_time = $expiry_time;
-    }
+//    /**
+//     * Spotify User class which creates an instance of an authorized spotify user.
+//     * @param string $username
+//     * @param string $access_token
+//     * @param string $refresh_token
+//     * @param int $expiry_time
+//     */
+//    public function __construct(string $username = '',
+//                                string $access_token = '',
+//                                string $refresh_token = '',
+//                                int    $expiry_time = 0)
+//    {
+//        $this->username = $username;
+//        $this->access_token = $access_token;
+//        $this->refresh_token = $refresh_token;
+//        $this->expiry_time = $expiry_time;
+//    }
 
     public function getId(): int
     {
@@ -164,8 +164,10 @@ class SpotifyUser extends Model
 
         try {
             $response = $refreshAccessToken->request();
+
             $this->access_token = $response->access_token;
             $this->expiry_time = time() + $response->expires_in;
+            $this->save();
         } catch (Exception $e) {
             return 'Refresh Token Error ' . $e->getCode() . ':' . $e->getMessage();
         }
@@ -173,7 +175,7 @@ class SpotifyUser extends Model
 
     public function checkAccessToken()
     {
-        if ($this->expiry_time < time()) {
+        if ($this->expiry_time->isBefore(time())) {
             $this->refreshAccessToken();
         }
     }
