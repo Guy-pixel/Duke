@@ -5,7 +5,6 @@ use App\Models\SpotifyUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpotifySongController;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,16 +25,11 @@ Route::middleware('SpotifyConnect')->get('/connect', function () {
 });
 Route::get('next/{username}', function($username){
     $spotifyUser = SpotifyUser::where('username', $username)->first();
-    SpotifySongController::nextSong(
-        $spotifyUser->getAttributes()['access_token'],
-        $spotifyUser->getAttributes()['refresh_token']);
+    SpotifySongController::nextSong($spotifyUser);
 });
 Route::get('previous/{username}', function ($username) {
     $spotifyUser = SpotifyUser::where('username', $username)->first();
-    SpotifySongController::previousSong(
-        $spotifyUser->getAttributes()['access_token'],
-        $spotifyUser->getAttributes()['refresh_token']);
-    // Why does $spotifyUser->getAccessToken() not work if it's a defined method?
+    SpotifySongController::previousSong($spotifyUser);
 });
 Route::get('resume/{username}', function ($username) {
     $spotifyUser = SpotifyUser::where('username', $username)->first();
@@ -44,9 +38,7 @@ Route::get('resume/{username}', function ($username) {
 
 Route::get('pause/{username}', function($username){
     $spotifyUser = SpotifyUser::where('username', $username)->first();
-    SpotifySongController::pauseSong(
-        $spotifyUser->getAttributes()['access_token'],
-        $spotifyUser->getAttributes()['refresh_token']);
+    SpotifySongController::pauseSong($spotifyUser);
 });
 
 Route::post('checkUser', [UserController::class, 'checkUser']);

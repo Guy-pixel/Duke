@@ -9,16 +9,14 @@ use Illuminate\Http\Request;
 class SpotifySongController extends Controller
 {
 
-    public static function nextSong($accessToken, $refreshToken)
+    public static function nextSong(SpotifyUser $spotifyUser)
     {
-        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
-        $currentUser->next();
+        $spotifyUser->next();
     }
 
-    public static function previousSong($accessToken, $refreshToken)
+    public static function previousSong(SpotifyUser $spotifyUser)
     {
-        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
-        $currentUser->previous();
+        $spotifyUser->previous();
     }
 
     public static function resumeSong(SpotifyUser $spotifyUser)
@@ -26,10 +24,9 @@ class SpotifySongController extends Controller
         $spotifyUser->resume();
     }
 
-    public static function pauseSong($accessToken, $refreshToken)
+    public static function pauseSong(SpotifyUser $spotifyUser)
     {
-        $currentUser = new SpotifyUser('',$accessToken, $refreshToken);
-        $currentUser->pause();
+        $spotifyUser->pause();
     }
 
 
