@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\SpotifyUserController;
+use App\Models\SpotifyUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -43,14 +45,21 @@ Route::get('connect', function () {
 });
 Route::get('spotifyRedirect', function () {
     if ($_GET['code']) {
-        $createdUser = SpotifyUserController::createUser($_GET['code']);
+        $createdSpotifyUser = SpotifyUserController::createUser($_GET['code']);
         session(['spotifyUser' => [
-            'username' => $createdUser->getUsername(),
-            'access_token' => $createdUser->getAccessToken(),
-            'refresh_token' => $createdUser->getRefreshToken(),
-            'expiry_time' => $createdUser->getExpiryTime()
+            'username' => $createdSpotifyUser->getUsername(),
+            'access_token' => $createdSpotifyUser->getAccessToken(),
+            'refresh_token' => $createdSpotifyUser->getRefreshToken(),
+            'expiry_time' => $createdSpotifyUser->getExpiryTime()
         ]]);
+        $dbSpotifyUser=SpotifyUser::where('username', $createdSpotifyUser->getUsername())->first();
+        if(Auth::user()){
+            $loggedInUser = User::where('id', Auth::id())->first();
+            $loggedInUser->setSpotifyId($dbSpotifyUser->getId());
+
+        }
     }
+
     return redirect('/');
 });
 //

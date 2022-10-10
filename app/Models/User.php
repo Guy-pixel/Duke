@@ -56,4 +56,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected function setSpotifyId(int $id){
+        $this->spotify_user_id=$id;
+    }
+    protected function getId(){
+        return $this->id;
+    }
+
 }
