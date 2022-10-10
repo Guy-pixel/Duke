@@ -45,11 +45,16 @@ class UserController extends Controller
     public static function loginUser(Request $request)
     {
         $fields = $request->except('_token');
+
         $username = $fields['username'];
         $password = $fields['password'];
 //        $email = $fields['email'];
         $user = User::where('username', $username)
             ->first();
+        if(!isset($user)){
+            $request->session()->flash('message', 'Credentials Not Found');
+            return back();
+        }
         if(Hash::check($password,$user->password)){
             Auth::login($user);
             return redirect('/');
