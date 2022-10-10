@@ -40,6 +40,10 @@ Route::get('pause/{username}', function($username){
     $spotifyUser = SpotifyUser::where('username', $username)->first();
     SpotifySongController::pauseSong($spotifyUser);
 });
+Route::get('vote/{songId}', function($songId){
+
+});
+
 
 Route::post('checkUser', [UserController::class, 'checkUser']);
 
