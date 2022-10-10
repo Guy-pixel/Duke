@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -175,7 +176,7 @@ class SpotifyUser extends Model
 
     public function checkAccessToken()
     {
-        if ($this->expiry_time->isBefore(time())) {
+        if ($this->expiry_time->isBefore(Carbon::now())) {
             $this->refreshAccessToken();
         }
     }
@@ -218,7 +219,7 @@ class SpotifyUser extends Model
                 'Content-Length: 0'
             ]
         );
-        dd($request->request());
+        $request->request();
     }
 
     public function next()

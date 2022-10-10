@@ -9,7 +9,7 @@ session_start();
     <?php
     $sessionSpotifyUser = session('spotifyUser');
     if (isset($sessionSpotifyUser['username'])) {
-        $spotifyUser = SpotifyUser::where('username', '=', $sessionSpotifyUser['username'])->first();;
+        $spotifyUser = SpotifyUser::where('username', '=', $sessionSpotifyUser['username'])->first();
         if (isset($spotifyUser->getAttributes()['username'])) {
             $spotifyUserId = $spotifyUser->getAttributes()['username'];
         } else {
