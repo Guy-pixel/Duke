@@ -28,6 +28,8 @@ class SpotifyDev extends Model
     public function getToken()
     {
         if (!isset($this->token)) {
+            // @todo #marek a model doing business logic? models should just hold data for reference
+            //      you should move the logic to a service to do the requesting instead which will help for re-usability
             $getToken = new CurlObject(
                 'https://accounts.spotify.com/api/token',
                 'POST',
@@ -51,6 +53,8 @@ class SpotifyDev extends Model
 
     public function createAuthorizationLink(): string
     {
+        // @todo #marek same as above. Why is this model caring about building an array for a curl request?
+        //      Your Song model is a good example. Just parameters to reference for the business logic.
         return env('SPOTIFY_AUTHORIZATION_URL') . CurlObject::buildPostFields(
             [
                 'response_type' => 'code',

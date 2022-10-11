@@ -7,13 +7,14 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
+// @todo #marek make sure to keep your code tidy! Have a squizz through https://www.php-fig.org/psr/psr-1/
 class SpotifyUserController extends Controller
 {
-
+    // @todo #marek make sure to specify the scope of the function public/protected/private
     static function connectAccount(User $user, SpotifyDev $devApp){
         $spotifyUser = self::createUser($devApp);
 
-
+        // @todo #marek there is so much space for activities!
 
     }
     static function SSO(){
@@ -24,8 +25,10 @@ class SpotifyUserController extends Controller
      * Creates a redirect to the authorization link.
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
+    // @todo #marek you should try to limit what is being returned to one type of object. and also keep to the 120 limit
     static function signInPopup(): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
+        // #marek good use of security with not unveiling keys ;)
         $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'),
             env('SPOTIFY_CLIENT_SECRET'));
         return redirect($devApp->createAuthorizationLink());
@@ -40,6 +43,12 @@ class SpotifyUserController extends Controller
      */
     static function createUser(string $code): SpotifyUser
     {
+        // @todo #marek i have noticed you have a lot static functions and creating new objects inside the function.
+        //      These are called hard dependencies. You can use a factory to have the SpotifyUser be a parameter
+        //      in the object.
+        //      Have a look at the ezyVet code: \InsuranceIntegration\Offer\Service\OfferTypeMenuServiceFactory
+        //      and: \InsuranceIntegration\Offer\Service\OfferTypeMenuService
+        //      @link https://olegkrivtsov.github.io/using-zend-framework-3-book/html/en/Model_View_Controller/Controller_Registration.html
         $currentUser = new SpotifyUser();
         $currentUser->requestAccessToken(env('SPOTIFY_CLIENT_ID'),
             env('SPOTIFY_CLIENT_SECRET'),

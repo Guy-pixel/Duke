@@ -53,6 +53,7 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+    // @todo #marek make sure to have variables declared before functions in a class
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

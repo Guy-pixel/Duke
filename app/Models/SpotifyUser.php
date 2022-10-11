@@ -91,6 +91,9 @@ class SpotifyUser extends Model
      */
     public function requestAccessToken(string $devApp_id, string $devApp_secret, string $code)
     {
+        // @todo #marek this model must be having an identity crisis.
+        //      See if you can move these logic into services.
+        //      This looks like the same request as in \App\Models\SpotifyDev::getToken
         $requestAccess = new CurlObject(
             'https://accounts.spotify.com/api/token',
             'POST',
@@ -174,6 +177,9 @@ class SpotifyUser extends Model
         }
     }
 
+    // @todo #marek maybe you can make this a boolean value to help with the refreshing process
+    //      you can then use the right verbage for the function name too i.e. isAccessTokenExpired(): bool
+    //      then the service can perform the necessary work for doing the refreshing
     public function checkAccessToken()
     {
         if ($this->expiry_time->isBefore(Carbon::now())) {
