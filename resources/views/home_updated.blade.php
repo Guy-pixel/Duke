@@ -1,7 +1,9 @@
 <?php
+use App\Models\Song;
 use App\Models\SpotifyDev;
 use App\Models\SpotifyUser;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\SpotifySongController;
 session_start();
 ?>
 
@@ -10,36 +12,29 @@ session_start();
     $sessionSpotifyUser = session('spotifyUser');
     if (isset($sessionSpotifyUser['username'])) {
         $spotifyUser = SpotifyUser::where('username', '=', $sessionSpotifyUser['username'])->first();
-        if (isset($spotifyUser->getAttributes()['username'])) {
-            $spotifyUserId = $spotifyUser->getAttributes()['username'];
-        } else {
-            $spotifyUserId = NULL;
-        }
+        SpotifySongController::getAlbum($spotifyUser);
     } else {
-        $spotifyUserId = NULL;
+        $spotifyUser=NULL;
     }
 
     $username = Null;
+    $songs = Song::all();
+
     ?>
 
     <x-nav-bar :user="$username"></x-nav-bar>
 
     <x-side-bar></x-side-bar>
     <div class="inline-view">
-        @if(!isset($spotifyUserId))
+        @if(!isset($spotifyUser))
             <a href="/connect">Connect to Spotify</a>
         @else
-            <x-voting-card></x-voting-card>
-            <x-voting-card></x-voting-card>
-            <x-voting-card></x-voting-card>
-            <x-voting-card></x-voting-card>
-            <x-voting-card></x-voting-card>
-            <x-voting-card></x-voting-card>
-            <x-voting-card></x-voting-card>
-            <x-voting-card></x-voting-card>
+            @foreach($songs as $song)
+                <x-voting-card :song="$song"></x-voting-card>
+            @endforeach
         @endif
     </div>
-    <x-media-bar :spotifyUserId="$spotifyUserId"></x-media-bar>
+    <x-media-bar :spotifyUser="$spotifyUser"></x-media-bar>
 
 
 </x-layout>

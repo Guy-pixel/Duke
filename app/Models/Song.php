@@ -13,38 +13,39 @@ class Song extends Model
         'name',
         'album',
         'artist',
-        'release_date'
+        'release_date',
+        'uri'
     ];
 
-    protected function getName()
+    public function getName()
     {
         return $this->name;
     }
-    protected function getAlbum()
+    public function getAlbum()
     {
         return $this->album;
     }
-    protected function getArtist()
+    public function getArtist()
     {
         return $this->artist;
     }
-    protected function getReleaseDate()
+    public function getReleaseDate()
     {
         return $this->release_date;
     }
-    protected function setName(string $name)
+    public function setName(string $name)
     {
         return $this->name=$name;
     }
-    protected function setAlbum(string $album)
+    public function setAlbum(string $album)
     {
         return $this->album=$album;
     }
-    protected function setArtist(string $artist)
+    public function setArtist(string $artist)
     {
         return $this->artist=$artist;
     }
-    protected function setReleaseDate($releaseDate)
+    public function setReleaseDate($releaseDate)
     {
         return $this->release_date=$releaseDate;
     }

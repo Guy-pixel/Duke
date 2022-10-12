@@ -1,7 +1,7 @@
-@if(isset($spotifyUserId))
+@if(isset($spotifyUser))
     <script>
         function playerAction(playerAction) {
-            fetch('/api/' + playerAction + '/{{ $spotifyUserId }}');
+            fetch('/api/' + playerAction + '/{{ $spotifyUser->getId() }}');
             if (playerAction === 'resume' || playerAction === 'next' || playerAction === 'previous') {
                 document.getElementById('pause-button').style.display = "flex";
                 document.getElementById('resume-button').style.display = "none";
@@ -14,7 +14,10 @@
     </script>
 @endif
 <div class="media-bar">
-    @if(isset($spotifyUserId))
+    @if(isset($spotifyUser))
+        <div class="currentAlbumContainer">
+            <img src="{{SpotifySongController::getAlbum($spotifyUser)}}" alt="" class="currentAlbum">
+        </div>
         <div class="media-buttons">
             <button id="previous-button" onclick="playerAction('previous')">
                 <img id="previous-icon"

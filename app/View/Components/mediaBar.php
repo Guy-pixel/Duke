@@ -6,15 +6,15 @@ use Illuminate\View\Component;
 
 class mediaBar extends Component
 {
-    public $spotifyUserId;
+    public $spotifyUser;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($spotifyUserId)
+    public function __construct($spotifyUser)
     {
-        $this->spotifyUserId=$spotifyUserId;
+        $this->spotifyUser=$spotifyUser;
     }
 
     /**

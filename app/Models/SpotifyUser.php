@@ -82,7 +82,6 @@ class SpotifyUser extends Model
         return $this->username;
 
     }
-
     /**
      * Request the access token for the user and set it to the current instance
      * @param string devApp Id
@@ -220,14 +219,26 @@ class SpotifyUser extends Model
             'https://api.spotify.com/v1/me/player/' . $pauseOrPlay,
             'PUT',
             [
-                'Authorization: Bearer ' . $this->access_token,
+                'Authorization: Bearer ' . $this->getAccessToken(),
                 'Content-Type: application.json',
                 'Content-Length: 0'
             ]
         );
         $request->request();
     }
-
+    public function getCurrentPlaying()
+    {
+        $request = new CurlObject(
+            'https://api.spotify.com/v1/me/player',
+            'GET',
+            [
+                'Authorization: Bearer ' . $this->getAccessToken(),
+                'Content-Type: application/json'
+            ]
+        );
+        $response = $request->request();
+        return $response;
+    }
     public function next()
     {
         $this->requestNavigation('next');

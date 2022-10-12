@@ -17,10 +17,11 @@ class SongFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>$this->faker()->name(),
-            'album'=>$this->faker()->name(),
-            'artist'=>$this->faker()->name(),
-            'release_date'=>$this->faker()->date()
+            'name'=>$this->faker->word(3),
+            'album'=>$this->faker->word(),
+            'artist'=>$this->faker->name(),
+            'release_date'=>$this->faker->date(),
+            'uri'=>$this->faker->url(),
 
         ];
     }

@@ -4,13 +4,13 @@
     </div>
     <div class="voting-card-text">
         <div class="voting-card-header">
-            Song Title
+            {{$song->getName()}}
         </div>
         <div class="voting-card-body">
-            Song Album
+            {{$song->getAlbum()}}
         </div>
         <div class="voting-card-footer">
-            Song Artist
+            {{$song->getArtist()}}
         </div>
     </div>
     <div class="voting-card-votes">

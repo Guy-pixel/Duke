@@ -57,8 +57,11 @@ body{
     height:3vh;
     width:3vh;
 }
+#pause-button{
+    display:none;
+}
 /*
-=========================================================
+========================Nav Bar=====================
 */
 .nav-bar{
     position: fixed;
