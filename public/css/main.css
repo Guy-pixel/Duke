@@ -40,6 +40,8 @@ body{
 .media-buttons{
     display:flex;
     height:80%;
+    margin-right:auto;
+
 }
 .media-buttons button{
     border-radius:50%;
@@ -60,6 +62,25 @@ body{
 #pause-button{
     display:none;
 }
+.currentAlbumContainer{
+    height:100%;
+    width:auto;
+    left:0;
+    margin-right:auto;
+    display:flex;
+    flex-direction: row;
+}
+.currentAlbumImage{
+    height:100%;
+    width:auto;
+}
+.currentAlbumInfo{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
 /*
 ========================Nav Bar=====================
 */
@@ -115,6 +136,10 @@ body{
     display:flex;
     flex-direction: row;
 }
+
+/*
+========================Inline View=====================
+*/
 .inline-view{
     min-height:80vh;
     display:flex;
@@ -122,6 +147,9 @@ body{
     align-items: center;
     justify-content: center;
 }
+/*
+========================Voting Cards=====================
+*/
 .voting-card{
     width:95%;
     height:20vh;

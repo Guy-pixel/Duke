@@ -38,7 +38,7 @@ class CurlObject extends Model
         }
         return $str_param;
     }
-    public function request()
+    public function request($asArray = False)
     {
         $stringifyPostFields=$this::buildPostFields($this->postFields);
         $request=curl_init();
@@ -55,7 +55,7 @@ class CurlObject extends Model
                 CURLOPT_HTTPHEADER => $this->headers
             )
         );
-        $response=json_decode(curl_exec($request));
+        $response=json_decode(curl_exec($request), $asArray);
         curl_close($request);
         return $response;
     }

@@ -1,3 +1,6 @@
+<?php
+use App\Http\Controllers\SpotifySongController;
+?>
 @if(isset($spotifyUser))
     <script>
         function playerAction(playerAction) {
@@ -15,8 +18,23 @@
 @endif
 <div class="media-bar">
     @if(isset($spotifyUser))
+        <?php
+        $albumInfo = SpotifySongController::getAlbum($spotifyUser);
+        ?>
         <div class="currentAlbumContainer">
-            <img src="{{SpotifySongController::getAlbum($spotifyUser)}}" alt="" class="currentAlbum">
+            <img src="{{$albumInfo->images[0]->url}}" alt="" class="currentAlbumImage">
+            <div class="currentAlbumInfo">
+                <div class="songName">{{ $spotifyUser->getCurrentPlaying()->item->name }}</div>
+                <div class="albumName">{{ $albumInfo->name }}</div>
+                <div class="artistName">
+                    @foreach($albumInfo->artists as $artistInfo)
+                        {{$artistInfo->name}}
+                        @if(!$loop->last)
+                            ,
+                        @endif
+                    @endforeach
+                </div>
+            </div>
         </div>
         <div class="media-buttons">
             <button id="previous-button" onclick="playerAction('previous')">

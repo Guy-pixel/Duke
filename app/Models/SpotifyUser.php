@@ -30,24 +30,6 @@ class SpotifyUser extends Model
     ];
     protected $table='spotify_users';
 
-//    /**
-//     * Spotify User class which creates an instance of an authorized spotify user.
-//     * @param string $username
-//     * @param string $access_token
-//     * @param string $refresh_token
-//     * @param int $expiry_time
-//     */
-//    public function __construct(string $username = '',
-//                                string $access_token = '',
-//                                string $refresh_token = '',
-//                                int    $expiry_time = 0)
-//    {
-//        $this->username = $username;
-//        $this->access_token = $access_token;
-//        $this->refresh_token = $refresh_token;
-//        $this->expiry_time = $expiry_time;
-//    }
-
     public function getId(): int
     {
         return $this->id;
