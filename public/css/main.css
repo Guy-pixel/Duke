@@ -37,13 +37,13 @@ body{
     left:0;
     z-index:50;
 }
-.media-buttons{
+.media-player-buttons{
     display:flex;
     height:80%;
     margin-right:auto;
 
 }
-.media-buttons button{
+.media-player-buttons button{
     border-radius:50%;
     height:5vh;
     width:5vh;
@@ -55,7 +55,7 @@ body{
     align-items: center;
 
 }
-.media-buttons button img{
+.media-player-buttons button img{
     height:3vh;
     width:3vh;
 }

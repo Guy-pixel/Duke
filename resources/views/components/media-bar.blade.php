@@ -22,21 +22,24 @@ use App\Http\Controllers\SpotifySongController;
         $albumInfo = SpotifySongController::getAlbum($spotifyUser);
         ?>
         <div class="currentAlbumContainer">
-            <img src="{{$albumInfo->images[0]->url}}" alt="" class="currentAlbumImage">
+            <img src="{{ $albumInfo?->images[0]->url ?: "" }}" alt="" class="currentAlbumImage">
             <div class="currentAlbumInfo">
-                <div class="songName">{{ $spotifyUser->getCurrentPlaying()->item->name }}</div>
-                <div class="albumName">{{ $albumInfo->name }}</div>
-                <div class="artistName">
-                    @foreach($albumInfo->artists as $artistInfo)
-                        {{$artistInfo->name}}
-                        @if(!$loop->last)
-                            ,
-                        @endif
-                    @endforeach
+                <div
+                    class="currentSongName">{{ $spotifyUser->getCurrentPlaying() ? $spotifyUser->getCurrentPlaying()->item->name : "No Song Playing" }}</div>
+                <div class="currentAlbumName">{{ $albumInfo?->name }}</div>
+                <div class="currentArtistName">
+                    @if(isset($albumInfo))
+                        @foreach($albumInfo->artists as $artistInfo)
+                            {{$artistInfo->name}}
+                            @if(!$loop->last)
+                                ,
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="media-buttons">
+        <div class="media-player-buttons">
             <button id="previous-button" onclick="playerAction('previous')">
                 <img id="previous-icon"
                      src="{{ asset('/icons/skip-start-fill.svg') }}"
