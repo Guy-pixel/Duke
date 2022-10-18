@@ -67,7 +67,7 @@ class SpotifyUser extends Model
     /**
      * Request the access token for the user and set it to the current instance
      * @param string devApp Id
-     * @param string devApp Secret
+     * @p aram string devApp Secret
      * @param string devApp Token
      */
     public function requestAccessToken(string $devApp_id, string $devApp_secret, string $code)

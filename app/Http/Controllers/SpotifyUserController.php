@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\SpotifyUser;
 use App\Models\SpotifyDev;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
@@ -12,7 +13,6 @@ class SpotifyUserController extends Controller
 {
     // @todo #marek make sure to specify the scope of the function public/protected/private
     // Done!
-
     public static function connectAccount(User $user, SpotifyDev $devApp){
         $spotifyUser = self::createUser($devApp);
 
@@ -25,11 +25,11 @@ class SpotifyUserController extends Controller
 
     /**
      * Creates a redirect to the authorization link.
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     // @todo #marek you should try to limit what is being returned to one type of object. and also keep to the 120 limit
     // Done!
-    public static function signInPopup(): \Illuminate\Http\RedirectResponse
+    public static function signInPopup(): RedirectResponse
     {
         // #marek good use of security with not unveiling keys ;)
         $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'),
@@ -42,9 +42,9 @@ class SpotifyUserController extends Controller
      * If it's a duplicate, attempt to refresh the access token.
      *
      * @param string $code
-     * @return SpotifyUser
+     * @return string
      */
-    public static function createUser(string $code): SpotifyUser
+    public static function createUser(string $code): string
     {
         // @todo #marek i have noticed you have a lot static functions and creating new objects inside the function.
         //      These are called hard dependencies. You can use a factory to have the SpotifyUser be a parameter
