@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\CurlObject;
 use App\Models\SpotifyUser;
 use App\Models\SpotifyDev;
 use App\Models\User;
@@ -21,6 +22,24 @@ class SpotifyUserController extends Controller
     }
     public static function SSO(){
         $currentUser = new SpotifyUser();
+        if(isset($currentUser->getUsername())){
+            $connectedUser = new User($currentUser);
+            User::verify($currentUser);
+            $request = new CurlObject(
+                'https://accounts.spotify.com/api/token',
+                'POST',
+                [
+                    'Authorization: Basic ' . base64_encode(env('SPOTIFY_CLIENT_ID') . ':' . env('SPOTIFY_CLIENT_SECRET')),
+                    'Content-Type:application/x-www-form-urlencoded'
+                ],
+                [
+                    'grant_type' => 'refresh_token',
+                    'refresh_token' => $this->refresh_token
+                ]
+            );
+
+
+        }
     }
 
     /**
@@ -35,6 +54,7 @@ class SpotifyUserController extends Controller
         $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'),
             env('SPOTIFY_CLIENT_SECRET'));
         return redirect($devApp->createAuthorizationLink());
+
     }
 
     /**
