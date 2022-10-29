@@ -7,10 +7,9 @@ use App\Models\SpotifyDev;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Exception;
 
 // @todo #marek make sure to keep your code tidy! Have a squizz through https://www.php-fig.org/psr/psr-1/
-class SpotifyUserController extends Controller
+class SpotifyUserController
 {
     // @todo #marek make sure to specify the scope of the function public/protected/private
     // Done!
@@ -64,7 +63,7 @@ class SpotifyUserController extends Controller
      * @param string $code
      * @return string
      */
-    public static function createUser(string $code): string
+    public static function createUser(string $code)
     {
         // @todo #marek i have noticed you have a lot static functions and creating new objects inside the function.
         //      These are called hard dependencies. You can use a factory to have the SpotifyUser be a parameter
@@ -91,8 +90,8 @@ class SpotifyUserController extends Controller
 
             try{
                 $existingUser->refreshAccessToken();
-            }catch(Exception $e){
-                return 'Existing User Found' . $e->getMessage();
+            }catch(\Exception $e){
+
             }
 
         }
