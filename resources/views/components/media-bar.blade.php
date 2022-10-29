@@ -4,7 +4,7 @@ use App\Http\Controllers\SpotifySongController;
 @if(isset($spotifyUser))
     <script>
         function playerAction(playerAction) {
-            fetch('/api/' + playerAction + '/{{ $spotifyUser->getId() }}');
+            fetch('/api/' + playerAction + '/{{ $spotifyUser->getId() }}')
             if (playerAction === 'resume' || playerAction === 'next' || playerAction === 'previous') {
                 document.getElementById('pause-button').style.display = "flex";
                 document.getElementById('resume-button').style.display = "none";
