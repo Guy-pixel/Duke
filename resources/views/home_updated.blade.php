@@ -26,13 +26,6 @@ session_start();
     <x-side-bar></x-side-bar>
     <div class="inline-view">
         <div id="votinglistroot"></div>
-{{--        @if(!isset($spotifyUser))--}}
-{{--            <a href="/connect">Connect to Spotify</a>--}}
-{{--        @else--}}
-{{--            @foreach($songs as $song)--}}
-{{--                <x-voting-card :song="$song"></x-voting-card>--}}
-{{--            @endforeach--}}
-{{--        @endif--}}
     </div>
     <x-media-bar :spotifyUser="$spotifyUser"></x-media-bar>
 

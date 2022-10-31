@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('album');
             $table->string('artist');
+            $table->string('requester');
             $table->datetime('release_date');
             $table->string('uri');
             $table->timestamps();

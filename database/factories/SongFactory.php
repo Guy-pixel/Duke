@@ -20,6 +20,7 @@ class SongFactory extends Factory
             'name'=>$this->faker->word(3),
             'album'=>$this->faker->word(),
             'artist'=>$this->faker->name(),
+            'requester'=>$this->faker->name(),
             'release_date'=>$this->faker->date(),
             'uri'=>$this->faker->url(),
 

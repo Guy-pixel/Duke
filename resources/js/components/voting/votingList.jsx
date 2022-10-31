@@ -1,27 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 function VotingCard({song}) {
-    return (<div className="voting-card">
-        <div className="voting-card-image"></div>
-        <div className="voting-card-text">
-            <div className="voting-card-header">{song.name}</div>
-            <div className="voting-card-body">{song.album}<br/>
-                {song.artist}</div>
-            <div className="voting-card-footer">{song.requester}</div>
-        </div>
-        <div className="voting-card-votes">
-            <div className="upvote-button">
-                <img src="/icons/play-fill.svg" alt="Upvote"/>
+    useEffect(()=>{
+
+    })
+    return (
+        <div className="voting-card" value={song.id}>
+            <div className="voting-card-image"></div>
+            <div className="voting-card-text">
+                <div className="voting-card-header">{song.name}</div>
+                <div className="voting-card-body">{song.album}<br/>
+                    {song.artist}</div>
+                <div className="voting-card-footer">{song.requester}</div>
             </div>
-            <div className="current-votes">
-                {song.votes} Votes
+            <div className="voting-card-votes">
+                <div className="upvote-button">
+                    <img src="/icons/play-fill.svg" alt="Upvote"/>
+                </div>
+                <div className="current-votes">
+                    {song.votes} Votes
+                </div>
+                <div className="downvote-button">
+                    <img src="/icons/play-fill.svg" alt="Downvote"/>
+                </div>
             </div>
-            <div className="downvote-button">
-                <img src="/icons/play-fill.svg" alt="Downvote"/>
-            </div>
-        </div>
-    </div>)
+        </div>)
 
 }
 
@@ -57,12 +61,14 @@ class VotingList extends React.Component {
             .then((responseData) => {
 
                 this.setState({
-                    history: history.concat([responseData])
+                    history: history.concat([{
+                        songList: responseData
+                    }])
                 });
                 console.log(responseData);
             })
             .catch((error) => console.log(error));
-        console.log(this.state.history);
+        console.log(this.state);
     }
 
 
@@ -72,7 +78,6 @@ class VotingList extends React.Component {
 
     render() {
         return (<div style={{width: "100%"}}>
-            There should be a voting card here:
             {Object.entries(this.state.history[this.state.history.length - 1].songList).map(([songID, songInfo]) => (
                 <VotingCard song={songInfo}/>))}
         </div>);
