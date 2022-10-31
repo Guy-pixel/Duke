@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
 use App\Models\SpotifyUser;
 use Illuminate\Http\Request;
@@ -43,7 +44,10 @@ Route::get('pause/{username}', function($username){
 Route::get('vote/{songId}', function($songId){
 
 });
+Route::get('songlist', function(){
 
+    return SongController::getAllSongs()->toArray();
+});
 
 Route::post('checkUser', [UserController::class, 'checkUser']);
 

@@ -1,26 +1,30 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
-class VotingCard extends React.Component {
-    render() {
-        return (
-            <div className="voting-card">
-                <div className="voting-card-image"></div>
-                <div className="voting-card-body">
-                    <div>{this.props.name}</div>
-                    <div>{this.props.album}</div>
-                    <div>{this.props.artist}</div>
-                </div>
-                <div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
+function VotingCard({song}) {
+    return (<div className="voting-card">
+        <div className="voting-card-image"></div>
+        <div className="voting-card-text">
+            <div className="voting-card-header">{song.name}</div>
+            <div className="voting-card-body">{song.album}<br/>
+                {song.artist}</div>
+            <div className="voting-card-footer">{song.requester}</div>
+        </div>
+        <div className="voting-card-votes">
+            <div className="upvote-button">
+                <img src="/icons/play-fill.svg" alt="Upvote"/>
             </div>
-        )
-    }
+            <div className="current-votes">
+                {song.votes} Votes
+            </div>
+            <div className="downvote-button">
+                <img src="/icons/play-fill.svg" alt="Downvote"/>
+            </div>
+        </div>
+    </div>)
 
 }
+
 class VotingList extends React.Component {
     constructor(props) {
         super(props);
@@ -28,42 +32,55 @@ class VotingList extends React.Component {
             history: [{
                 songList: {
                     song1: {
-                        name: "songName",
-                        album: "albumName",
-                        artist: "artistName",
-                        requester: "requesterName",
-                    },
-                    song2: {
-                        name: "songName",
-                        album: "albumName",
-                        artist: "artistName",
-                        requester: "requesterName",
+                        name: "songName1",
+                        album: "albumName1",
+                        artist: "artistName1",
+                        requester: "requesterName1",
+                        votes: "5"
+                    }, song2: {
+                        name: "songName2",
+                        album: "albumName2",
+                        artist: "artistName2",
+                        requester: "requesterName2",
+                        votes: "10"
                     }
                 }
             }]
         }
     };
 
+
+    componentDidMount() {
+        const history = this.state.history;
+        fetch('/api/songlist', {method: 'GET'})
+            .then(response => response.json())
+            .then((responseData) => {
+
+                this.setState({
+                    history: history.concat([responseData])
+                });
+                console.log(responseData);
+            })
+            .catch((error) => console.log(error));
+        console.log(this.state.history);
+    }
+
+
     handleClick(i) {
 
     }
 
     render() {
-        const songList = this.state.history[0].songList;
-        return (
+        return (<div style={{width: "100%"}}>
+            There should be a voting card here:
+            {Object.entries(this.state.history[this.state.history.length - 1].songList).map(([songID, songInfo]) => (
+                <VotingCard song={songInfo}/>))}
+        </div>);
 
-            <div>
-                There should be a voting card here:
-                {
-                    songList.map(()=>)
-                }
-
-            </div>
-        );
     }
 }
 
 
 const root = ReactDOM.createRoot(document.getElementById('votinglistroot'));
-root.render(<VotingList />);
+root.render(<VotingList/>);
 

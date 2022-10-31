@@ -21,7 +21,7 @@ class SpotifyUserController
     }
     public static function SSO(){
         $currentUser = new SpotifyUser();
-        if(isset($currentUser->getUsername())){
+        if($currentUser->getUsername() !== null){
             $connectedUser = new User($currentUser);
             User::verify($currentUser);
             $request = new CurlObject(
@@ -33,7 +33,7 @@ class SpotifyUserController
                 ],
                 [
                     'grant_type' => 'refresh_token',
-                    'refresh_token' => $this->refresh_token
+                    'refresh_token' => $currentUser->refresh_token
                 ]
             );
 
