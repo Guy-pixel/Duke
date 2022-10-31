@@ -1,27 +1,27 @@
 import React, {useEffect} from 'react';
 import * as ReactDOM from 'react-dom/client';
 
-function VotingCard({song}) {
+function VotingCard(props) {
     useEffect(()=>{
 
     })
     return (
-        <div className="voting-card" value={song.id}>
+        <div className="voting-card" songID={props.song.id}>
             <div className="voting-card-image"></div>
             <div className="voting-card-text">
-                <div className="voting-card-header">{song.name}</div>
-                <div className="voting-card-body">{song.album}<br/>
-                    {song.artist}</div>
-                <div className="voting-card-footer">{song.requester}</div>
+                <div className="voting-card-header">{props.song.name}</div>
+                <div className="voting-card-body">{props.song.album}<br/>
+                    {props.song.artist}</div>
+                <div className="voting-card-footer">{props.song.requester}</div>
             </div>
             <div className="voting-card-votes">
-                <div className="upvote-button">
+                <div className="upvote-button" onClick={()=>props.onClick(props.song.id)}>
                     <img src="/icons/play-fill.svg" alt="Upvote"/>
                 </div>
                 <div className="current-votes">
-                    {song.votes} Votes
+                    {props.song.votes} Votes
                 </div>
-                <div className="downvote-button">
+                <div onClick={() => {props.onClick(props.song.id)}} className="downvote-button">
                     <img src="/icons/play-fill.svg" alt="Downvote"/>
                 </div>
             </div>
@@ -34,7 +34,7 @@ class VotingList extends React.Component {
         super(props);
         this.state = {
             history: [{
-                songList: {
+                songList0: {
                     song1: {
                         name: "songName1",
                         album: "albumName1",
@@ -55,14 +55,16 @@ class VotingList extends React.Component {
 
 
     componentDidMount() {
+
         const history = this.state.history;
+
         fetch('/api/songlist', {method: 'GET'})
             .then(response => response.json())
             .then((responseData) => {
 
                 this.setState({
-                    history: history.concat([{
-                        songList: responseData
+                    history: history.push([{
+                        ['songList'+this.state.history.length]: responseData
                     }])
                 });
                 console.log(responseData);
@@ -78,8 +80,8 @@ class VotingList extends React.Component {
 
     render() {
         return (<div style={{width: "100%"}}>
-            {Object.entries(this.state.history[this.state.history.length - 1].songList).map(([songID, songInfo]) => (
-                <VotingCard song={songInfo}/>))}
+            {Object.entries(this.state.history[this.state.history.length-1]).map(([songID, songInfo]) => (
+                <VotingCard onClick={this.handleClick(songInfo.id)} song={songInfo}/>))}
         </div>);
 
     }
