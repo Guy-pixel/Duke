@@ -15,13 +15,13 @@ function VotingCard(props) {
                 <div className="voting-card-footer">{props.song.requester}</div>
             </div>
             <div className="voting-card-votes">
-                <div onClick={this.props.handleVoteClick(1, props.song.id)} className="upvote-button">
+                <div onClick={props.upVote} className="upvote-button">
                     <img src="/icons/play-fill.svg" alt="Upvote"/>
                 </div>
                 <div className="current-votes">
                     {props.song.votes} Votes
                 </div>
-                <div onClick={this.props.handleVoteClick(-1, props.song.id)} className="downvote-button">
+                <div onClick={props.downVote} className="downvote-button">
                     <img src="/icons/play-fill.svg" alt="Downvote"/>
                 </div>
             </div>
@@ -61,7 +61,8 @@ class VotingList extends React.Component {
             fetch('/api/songlist', {method: 'GET'})
                 .then(response => response.json())
                 .then((responseData) => {
-                    if (JSON.stringify(responseData) != JSON.stringify(this.state.history[this.state.history.length - 1])) {
+                    if (JSON.stringify(responseData) !==
+                        JSON.stringify(this.state.history[this.state.history.length - 1])) {
                         this.setState({
                             history: oldHistory.concat([
                                 responseData
@@ -72,19 +73,25 @@ class VotingList extends React.Component {
                 .catch((error) => console.log(error));
         }, 1000)
     }
+
     componentWillUnmount() {
         clearInterval(this.interval);
     }
 
-
     handleVoteClick(diff, id) {
-        
+        console.log(id + ' has changed votes by: ' + diff);
     }
+
 
     render() {
         return (<div style={{width: "100%"}}>
-            {Object.entries(this.state.history[this.state.history.length - 1]).map(([songID, songInfo]) => (
-                <VotingCard song={songInfo}/>))}
+            {Object.entries(this.state.history[this.state.history.length - 1])
+                .sort((a, b)=>(a.votes > b.votes ? 1 : -1))
+                .map(([songID, songInfo]) => (
+                        <VotingCard downVote= {()=>this.handleVoteClick(-1, songInfo.id)} upVote={()=>{this.handleVoteClick(1, songInfo.id)}} onClick={()=>{console.log(songInfo.id)}} song={songInfo}/>
+                    )
+                )
+            }
         </div>);
 
     }

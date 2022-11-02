@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('requester');
             $table->datetime('release_date');
             $table->string('uri');
+            $table->integer('votes');
             $table->timestamps();
         });
     }

@@ -23,6 +23,7 @@ class SongFactory extends Factory
             'requester'=>$this->faker->name(),
             'release_date'=>$this->faker->date(),
             'uri'=>$this->faker->url(),
+            'votes'=>$this->faker->numberBetween(1, 50)
 
         ];
     }
