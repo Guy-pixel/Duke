@@ -54,8 +54,18 @@ class VotingList extends React.Component {
         }
     };
 
+    handleVoteClick(diff, id) {
+        this.setState(prevState=>{
+            prevState.history.map(
+                song => (song.id === id ? Object.assign(song, { votes: song.votes+diff }): song)
+            )
+
+        });
+        console.log(this.state);
+    }
 
     componentDidMount() {
+        console.log(Object.entries(this.state.history[this.state.history.length - 1]));
         this.interval = setInterval(() => {
             const oldHistory = this.state.history;
             fetch('/api/songlist', {method: 'GET'})
@@ -71,24 +81,24 @@ class VotingList extends React.Component {
                     }
                 })
                 .catch((error) => console.log(error));
-        }, 1000)
+        }, 1500)
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
     }
 
-    handleVoteClick(diff, id) {
-        console.log(id + ' has changed votes by: ' + diff);
-    }
-
-
     render() {
+
         return (<div style={{width: "100%"}}>
             {Object.entries(this.state.history[this.state.history.length - 1])
-                .sort((a, b)=>(a.votes > b.votes ? 1 : -1))
+                .sort((a, b) => (b[1].votes - a[1].votes))
                 .map(([songID, songInfo]) => (
-                        <VotingCard downVote= {()=>this.handleVoteClick(-1, songInfo.id)} upVote={()=>{this.handleVoteClick(1, songInfo.id)}} onClick={()=>{console.log(songInfo.id)}} song={songInfo}/>
+                        <VotingCard downVote={() => this.handleVoteClick(-1, songInfo.id)} upVote={() => {
+                            this.handleVoteClick(1, songInfo.id)
+                        }} onClick={() => {
+                            console.log(songInfo.id)
+                        }} song={songInfo}/>
                     )
                 )
             }
