@@ -9,7 +9,7 @@ class SpotifyConnect
     function handle($request, Closure $next)
     {
         $devApp = new SpotifyDev(env('SPOTIFY_CLIENT_ID'), env('SPOTIFY_CLIENT_SECRET'));
-        $token = $devApp->getToken();
+        $token = $devApp->getAccessToken();
         session(['devToken'=>$token]);
         return redirect($devApp->createAuthorizationLink());
     }

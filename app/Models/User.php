@@ -25,19 +25,6 @@ class User extends Authenticatable
         'password',
         'spotify_user_id'
     ];
-
-
-    /**
-     * Hashes the password and returns the hash.
-     * @return Attribute
-     */
-    protected function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => Hash::make($value)
-        );
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -53,8 +40,17 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    // @todo #marek make sure to have variables declared before functions in a class
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * Hashes the password and returns the hash.
+     * @return Attribute
+     */
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => Hash::make($value)
+        );
+    }
 }

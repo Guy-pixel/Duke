@@ -29,7 +29,7 @@ class SpotifySongController extends Controller
         $spotifyUser->pause();
     }
     public static function getAlbum(SpotifyUser $spotifyUser){
-        $spotifyUser->checkAccessToken();
+        $spotifyUser->isAccessTokenExpired();
         $playerInfo = $spotifyUser->getCurrentPlaying();
         return $playerInfo?->item->album;
 

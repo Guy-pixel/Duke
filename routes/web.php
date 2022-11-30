@@ -41,18 +41,19 @@ Route::get('logout', [UserController::class, 'logout']);
 Route::get('connect', function () {
     return SpotifyUserController::signInPopup(session('devToken'));
 });
-Route::get('spotifyRedirect', function () {
-    if ($_GET['code']) {
-        $createdUser = SpotifyUserController::createUser($_GET['code']);
-        session(['spotifyUser' => [
-            'username' => $createdUser->getUsername(),
-            'access_token' => $createdUser->getAccessToken(),
-            'refresh_token' => $createdUser->getRefreshToken(),
-            'expiry_time' => $createdUser->getExpiryTime()
-        ]]);
-    }
-    return redirect('/');
-});
+Route::get('spotifyRedirect', [SpotifyDriver::class, 'callbackResponse']);
+//    function () {
+//    if ($_GET['code']) {
+//        $createdUser = SpotifyUserController::createUser($_GET['code']);
+//        session(['spotifyUser' => [
+//            'username' => $createdUser->getUsername(),
+//            'access_token' => $createdUser->getAccessToken(),
+//            'refresh_token' => $createdUser->getRefreshToken(),
+//            'expiry_time' => $createdUser->getExpiryTime()
+//        ]]);
+//    }
+//    return redirect('/');
+//});
 //
 //Auth::routes();
 //

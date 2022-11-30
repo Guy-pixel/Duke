@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class SpotifyDev extends Model
+class SpotifyDev extends Model implements TokenableRecord
 {
     use HasFactory;
 
@@ -21,15 +21,13 @@ class SpotifyDev extends Model
     }
 
     /**
-     * Simple getToken request which pulls authorisation token from Spotify based on the
+     * Simple getAccessToken request which pulls authorisation token from Spotify based on the
      * base64_encode of the client_id:client_secret
      * @return string Token
      */
-    public function getToken()
+    public function getAccessToken()
     {
         if (!isset($this->token)) {
-            // @todo #marek a model doing business logic? models should just hold data for reference
-            //      you should move the logic to a service to do the requesting instead which will help for re-usability
             $getToken = new CurlObject(
                 'https://accounts.spotify.com/api/token',
                 'POST',
@@ -50,6 +48,12 @@ class SpotifyDev extends Model
             return $this->token;
         }
     }
+
+    /**
+     * Request the access token for the user and set it to the current instance
+     *
+     */
+
 
     public function createAuthorizationLink(): string
     {
