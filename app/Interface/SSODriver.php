@@ -1,9 +1,13 @@
 <?php
 
+<<<<<<< Updated upstream:app/Interfaces/SSODriver.php
 namespace App\Interfaces;
 
 use App\Models;
 
+=======
+namespace App\Interface;
+>>>>>>> Stashed changes:app/Interface/SSODriver.php
 
 interface SSODriver
 {

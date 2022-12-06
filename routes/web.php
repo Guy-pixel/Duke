@@ -31,7 +31,7 @@ Route::get('/signup', function () {
 Route::post('/signup/request', function (Request $request) {
     $ifError = UserController::signup($request);
     if (isset($ifError['code'])) {
-//        $stringifiedError = '?message=' . $ifError['message'];
+
         $request->session()->flash('message', 'Credentials not found');
     }
     return redirect('/');
@@ -42,23 +42,4 @@ Route::get('connect', function () {
     return SpotifyUserController::signInPopup(session('devToken'));
 });
 Route::get('spotifyRedirect', [SpotifyDriver::class, 'callbackResponse']);
-//    function () {
-//    if ($_GET['code']) {
-//        $createdUser = SpotifyUserController::createUser($_GET['code']);
-//        session(['spotifyUser' => [
-//            'username' => $createdUser->getUsername(),
-//            'access_token' => $createdUser->getAccessToken(),
-//            'refresh_token' => $createdUser->getRefreshToken(),
-//            'expiry_time' => $createdUser->getExpiryTime()
-//        ]]);
-//    }
-//    return redirect('/');
-//});
-//
-//Auth::routes();
-//
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//
-//Auth::routes();
-//
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
