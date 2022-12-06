@@ -2,12 +2,8 @@
 
 namespace App\Services;
 
-<<<<<<< Updated upstream
 use App\Interfaces\SSODriver;
 use App\Interfaces\TokenableRecord;
-=======
-use App\Interface\SSODriver;
->>>>>>> Stashed changes
 use App\Models\CurlObject;
 
 class SpotifyDriver implements SSODriver{
@@ -75,22 +71,15 @@ class SpotifyDriver implements SSODriver{
     {
         return $this->code;
     }
-<<<<<<< Updated upstream
     public function getAccessTokenURL(){
     }
     public function setAccessToken(TokenableRecord $tokenableRecord)
     {
 
     }
-=======
     public function createUser(){
 
     }
-    public function getAccessTokenURL(){
-
-    }
-    public function setAccessToken(){}
->>>>>>> Stashed changes
     public function setRefreshToken(){}
 
     public function getAccessToken(){}
