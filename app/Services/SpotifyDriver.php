@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
+use App\Interfaces\SSODriver;
+use App\Interfaces\TokenableRecord;
 use App\Models\CurlObject;
-use SSODriver;
 
 class SpotifyDriver implements SSODriver{
     private string $code;
@@ -75,8 +76,12 @@ class SpotifyDriver implements SSODriver{
     {
         return $this->code;
     }
-    public function getAccessTokenURL(){}
-    public function setAccessToken(){}
+    public function getAccessTokenURL(){
+    }
+    public function setAccessToken(TokenableRecord $tokenableRecord)
+    {
+
+    }
     public function setRefreshToken(){}
 
     public function getAccessToken(){}

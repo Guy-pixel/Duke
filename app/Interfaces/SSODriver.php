@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Interfaces;
+
+use App\Models;
+
+
 interface SSODriver
 {
 
@@ -10,9 +15,8 @@ interface SSODriver
     public function setCode($code);
     public function getCode();
     public function getAccessTokenURL();
-    public function setAccessToken();
+    public function setAccessToken(TokenableRecord $tokenableRecord);
     public function setRefreshToken();
-
     public function getAccessToken();
     public function getRefreshToken();
 
