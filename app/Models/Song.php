@@ -16,7 +16,6 @@ class Song extends Model
         'release_date',
         'uri'
     ];
-
     public function getName()
     {
         return $this->name;

@@ -15,9 +15,10 @@ interface SSODriver
     public function setCode($code);
     public function getCode();
     public function getAccessTokenURL();
-    public function setAccessToken(TokenableRecord $tokenableRecord);
+    public function setAccessToken(TokenableRecord $tokenableRecord, string $accessToken);
     public function setRefreshToken();
     public function getAccessToken();
     public function getRefreshToken();
+
 
 }

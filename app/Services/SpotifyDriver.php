@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Interfaces\SSODriver;
 use App\Interfaces\TokenableRecord;
 use App\Models\CurlObject;
+use App\Models\SpotifyUser;
+use Exception;
 
 class SpotifyDriver implements SSODriver{
     private string $code;
@@ -72,10 +74,11 @@ class SpotifyDriver implements SSODriver{
         return $this->code;
     }
     public function getAccessTokenURL(){
+        return 'https://accounts.spotify.com/api/token';
     }
-    public function setAccessToken(TokenableRecord $tokenableRecord)
+    public function setAccessToken(TokenableRecord $tokenableRecord, string $accessToken)
     {
-
+        $tokenableRecord->setAccessToken($accessToken);
     }
     public function createUser(){
 
@@ -84,4 +87,106 @@ class SpotifyDriver implements SSODriver{
 
     public function getAccessToken(){}
     public function getRefreshToken(){}
+    /**
+     * Requests the username of the spotify user, update later to add further information.
+     *
+     * @return mixed
+     */
+    public function requestUserInfo(SpotifyUser $spotifyUser)
+    {
+        $requestUsername = new CurlObject(
+            'https://api.spotify.com/v1/me',
+            'GET',
+            [
+                'Authorization: Bearer ' . $spotifyUser->getAccessToken(),
+                'Content-Type: application/json',
+            ],
+            []
+        );
+        $response = $requestUsername->request();
+        if (!isset($response->id)) {
+            dd($response);
+        } else {
+            $spotifyUser->setUserName($response->id);
+        }
+        return $response;
+
+    }
+    public function refreshAccessToken(SpotifyUser $spotifyUser)
+    {
+        $refreshAccessToken = new CurlObject(
+            'https://accounts.spotify.com/api/token',
+            'POST',
+            [
+                'Authorization: Basic ' . base64_encode(env('SPOTIFY_CLIENT_ID') . ':' . env('SPOTIFY_CLIENT_SECRET')),
+                'Content-Type:application/x-www-form-urlencoded'
+            ],
+            [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $spotifyUser->getRefreshToken()
+            ]
+        );
+        try {
+            $response = $refreshAccessToken->request();
+
+            $spotifyUser->setAccessToken($response->access_token);
+            $spotifyUser->setExpiryTime(time() + $response->expires_in);
+            $spotifyUser->save();
+        } catch (Exception $e) {
+            return 'Refresh Token Error ' . $e->getCode() . ':' . $e->getMessage();
+        }
+
+    }
+    public function getCurrentPlaying(SpotifyUser $spotifyUser)
+    {
+        $request = new CurlObject(
+            'https://api.spotify.com/v1/me/player',
+            'GET',
+            [
+                'Authorization: Bearer ' . $spotifyUser->getAccessToken(),
+                'Content-Type: application/json'
+            ]
+        );
+        $response = $request->request();
+        return $response;
+    }
+    /**
+     * Send a cURL API request to go "next" or "previous" based on the variable passed.
+     * @param string $nextOrPrevious
+     * @return void
+     */
+    public function requestNavigation(SpotifyUser $spotifyUser, string $nextOrPrevious)
+    {
+        $spotifyUser->isAccessTokenExpired();
+        $request = new CurlObject(
+            'https://api.spotify.com/v1/me/player/' . $nextOrPrevious,
+            'POST',
+            [
+                'Authorization: Bearer ' . $spotifyUser->getAccessToken(),
+                'Content-Type: application.json',
+                'Content-Length: 0'
+            ]
+        );
+
+        $request->request();
+    }
+    /**
+     * Send a cURL API request to "pause" or "play" based on the variable passed.
+     * @param string $pauseOrPlay
+     * @return void
+     */
+    public function requestPausePlay(SpotifyUser $spotifyUser, string $pauseOrPlay)
+    {
+        $spotifyUser->isAccessTokenExpired();
+        $request = new CurlObject(
+            'https://api.spotify.com/v1/me/player/' . $pauseOrPlay,
+            'PUT',
+            [
+                'Authorization: Bearer ' . $spotifyUser->getAccessToken(),
+                'Content-Type: application.json',
+                'Content-Length: 0'
+            ]
+        );
+        $request->request();
+    }
 }

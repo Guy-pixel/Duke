@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ class UserController extends Controller
     {
         $fields = $request->except('_token');
         $username = $fields->username;
-//        $email = $fields->email;
+
         if (isset($username)) {
             $user = User::where('username', $fields->username());
         } elseif (isset($email)) {
@@ -42,27 +43,18 @@ class UserController extends Controller
         }
     }
 
-    public static function loginUser(Request $request)
+    public static function loginUser(Request $request, UserService $userService)
     {
-        $fields = $request->except('_token');
-
-        $username = $fields['username'];
-        $password = $fields['password'];
-//        $email = $fields['email'];
-        $user = User::where('username', $username)
-            ->first();
-        if(!isset($user)){
+        $user = $userService->checkUser($request->input('username'));
+        if(!$user) {
             $request->session()->flash('message', 'Credentials Not Found');
             return back();
         }
-        if(Hash::check($password,$user->password)){
-            Auth::login($user);
-            return redirect('/');
-        } else {
+        if(!$userService->loginUser($user, $request->input('password'))){
             $request->session()->flash('message', 'Credentials Not Found');
             return back();
         }
-
+        return redirect('/');
     }
     public static function logout(){
         Auth::logout();
