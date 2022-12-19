@@ -19,7 +19,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('home_updated');
+    return view('home');
 })->name('home');
 Route::get('/login', function () {
     return view('login');
