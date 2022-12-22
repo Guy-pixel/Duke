@@ -63,7 +63,14 @@ class SpotifyDev extends Model implements TokenableRecord
             [
                 'response_type' => 'code',
                 'client_id' => $this->client_id,
-                'scope' => 'app-remote-control user-top-read user-read-currently-playing user-read-recently-played streaming app-remote-control user-read-playback-state user-modify-playback-state',
+                'scope' => 'app-remote-control
+                user-top-read
+                user-read-currently-playing
+                user-read-recently-played
+                streaming
+                app-remote-control
+                user-read-playback-state
+                user-modify-playback-state',
                 'show_dialog' => True,
                 'redirect_uri' => env('SPOTIFY_AUTHORIZATION_REDIRECT_URI')
             ]

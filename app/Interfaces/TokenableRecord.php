@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Interfaces;
-
+/**
+ * Interface for records that require auth workflow including Access Tokens, Refresh Tokens and Expiry Times based on
+ * traditional OAuth 2.0 workflow.
+ */
 interface TokenableRecord
 {
     public function getAccessToken();

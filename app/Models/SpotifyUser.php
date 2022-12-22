@@ -64,14 +64,6 @@ class SpotifyUser extends Model
         return $this->username;
 
     }
-    public function isAccessTokenExpired()
-    {
-        if ($this->expiry_time->isBefore(Carbon::now())) {
-            $this->refreshAccessToken();
-        }
-    }
-
-
 
 
 

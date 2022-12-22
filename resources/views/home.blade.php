@@ -13,10 +13,9 @@
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
 </head>
 <body>
-{{ $slot }}
 
 <div id="react-container">
-
+    <a href="/api/login"></a>
 </div>
 
 
