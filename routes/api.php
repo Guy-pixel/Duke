@@ -49,7 +49,29 @@ Route::get('songlist', function(){
     return SongController::getAllSongs()->toArray();
 });
 
+
+Route::get('login', [UserController::class, 'loginUser']);
+
 Route::post('checkUser', [UserController::class, 'checkUser']);
 
+//Checking Auth Middleare
+Route::middleware(['auth'])->group(function() {
+    Route::get('next/{username}', function($username){
+        $spotifyUser = SpotifyUser::where('username', $username)->first();
+        SpotifySongController::nextSong($spotifyUser);
+    });
+    Route::get('previous/{username}', function ($username) {
+        $spotifyUser = SpotifyUser::where('username', $username)->first();
+        SpotifySongController::previousSong($spotifyUser);
+    });
+    Route::get('resume/{username}', function ($username) {
+        $spotifyUser = SpotifyUser::where('username', $username)->first();
+        SpotifySongController::resumeSong($spotifyUser);
+    });
 
+    Route::get('pause/{username}', function($username){
+        $spotifyUser = SpotifyUser::where('username', $username)->first();
+        SpotifySongController::pauseSong($spotifyUser);
+    });
+});
 

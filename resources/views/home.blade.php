@@ -1,5 +1,5 @@
 <?php
-    ?>
+?>
     <!doctype html>
 <html lang="en">
 <head>
@@ -13,9 +13,23 @@
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
 </head>
 <body>
-
-<div id="react-container">
-    <a href="/api/login"></a>
+@if(!Auth::check())
+    <form action="/login" method="post">
+        @csrf
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <button type="submit">Login</button>
+    </form>
+@else
+    <form action="/logout" method="post">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
+@endif
+<div>
+    @if(Auth::check())
+        You are currently logged in as {{ Auth::user()->username }}
+    @endif
 </div>
 
 

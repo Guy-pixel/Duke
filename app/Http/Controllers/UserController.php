@@ -45,13 +45,14 @@ class UserController extends Controller
 
     public static function loginUser(Request $request, UserService $userService)
     {
+
         $user = $userService->checkUser($request->input('username'));
         if(!$user) {
-            $request->session()->flash('message', 'Credentials Not Found');
+            $request->session()->flash('message', 'Credentials Not Found - no username');
             return back();
         }
         if(!$userService->loginUser($user, $request->input('password'))){
-            $request->session()->flash('message', 'Credentials Not Found');
+            $request->session()->flash('message', 'Credentials Not Found - no password');
             return back();
         }
         return redirect('/');

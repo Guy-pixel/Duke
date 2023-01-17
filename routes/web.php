@@ -36,10 +36,11 @@ Route::post('/signup/request', function (Request $request) {
     }
     return redirect('/');
 });
-Route::post('login', [UserController::class, 'loginUser']);
-Route::get('logout', [UserController::class, 'logout']);
-Route::get('connect', function () {
+Route::post('/login', [UserController::class, 'loginUser']);
+Route::post('/logout', [UserController::class, 'logout']);
+Route::get('/connect', function () {
     return SpotifyUserController::signInPopup(session('devToken'));
 });
-Route::get('spotifyRedirect', [SpotifyDriver::class, 'callbackResponse']);
+Route::get('/spotifyRedirect', [SpotifyDriver::class, 'callbackResponse']);
+
 

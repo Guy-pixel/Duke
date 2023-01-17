@@ -16,5 +16,6 @@ class UserService
             return false;
         }
         Auth::login($user);
+        return true;
     }
 }
