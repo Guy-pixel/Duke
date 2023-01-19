@@ -13,4 +13,4 @@ import './bootstrap';
  */
 
 import './components/Example';
-import './components/voting/votingList';
+import './components/public/voting/votingList';
